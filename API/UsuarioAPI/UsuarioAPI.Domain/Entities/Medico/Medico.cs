@@ -2,8 +2,14 @@
 
 namespace UsuarioAPI.Domain.Entities.Medico
 {
+    /// <summary>
+    /// Classe entidade do Médico
+    /// </summary>
     public class Medico : UsuarioBase
     {
-        public string NumeroCRM { get; set; }
+        /// <summary>
+        /// Número do CRM
+        /// </summary>
+        public required string NumeroCRM { get; set; }
     }
 }
