@@ -5,11 +5,13 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI", "UsuarioAPI\UsuarioAPI.csproj", "{366CFC70-B049-4070-A4F5-E6BA8EC5D55D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsuarioAPI.Domain", "UsuarioAPI.Domain\UsuarioAPI.Domain.csproj", "{4FBAC48F-2B0E-4474-99CF-4D0EC02D906E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Domain", "UsuarioAPI.Domain\UsuarioAPI.Domain.csproj", "{4FBAC48F-2B0E-4474-99CF-4D0EC02D906E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsuarioAPI.Infrastructure", "UsuarioAPI.Infrastructure\UsuarioAPI.Infrastructure.csproj", "{CBFDBE68-435C-4367-BB05-EACC88911FB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Infrastructure", "UsuarioAPI.Infrastructure\UsuarioAPI.Infrastructure.csproj", "{CBFDBE68-435C-4367-BB05-EACC88911FB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsuarioAPI.Application", "UsuarioAPI.Application\UsuarioAPI.Application.csproj", "{0EA9BA66-9DFD-4D9A-9CDF-8552ED366A80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Application", "UsuarioAPI.Application\UsuarioAPI.Application.csproj", "{0EA9BA66-9DFD-4D9A-9CDF-8552ED366A80}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0EA9BA66-9DFD-4D9A-9CDF-8552ED366A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EA9BA66-9DFD-4D9A-9CDF-8552ED366A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EA9BA66-9DFD-4D9A-9CDF-8552ED366A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

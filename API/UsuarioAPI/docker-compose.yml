@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "M@sterk3y"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  usuarioapi:
+    build:
+      context: .
+      dockerfile: ./UsuarioAPI/Dockerfile
+    container_name: usuarioapi
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:8080"
+
+volumes:
+  sqlserver_data:
