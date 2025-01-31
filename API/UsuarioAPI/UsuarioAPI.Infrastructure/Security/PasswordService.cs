@@ -1,8 +1,8 @@
-﻿using UsuarioAPI.Domain.Repositories;
+﻿using UsuarioAPI.Domain.Services;
 
 namespace UsuarioAPI.Infrastructure.Security
 {
-    public class PasswordService : ISecurityRepository
+    public class PasswordService : ISecurityService
     {
         public string CriptografarSenha(string senha)
         {

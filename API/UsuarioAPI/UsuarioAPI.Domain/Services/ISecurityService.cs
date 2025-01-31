@@ -1,9 +1,9 @@
-﻿namespace UsuarioAPI.Domain.Repositories
+﻿namespace UsuarioAPI.Domain.Services
 {
     /// <summary>
     /// Interface de Segurança
     /// </summary>
-    public interface ISecurityRepository
+    public interface ISecurityService
     {
         /// <summary>
         /// Contrato responsável por criptografar a senha

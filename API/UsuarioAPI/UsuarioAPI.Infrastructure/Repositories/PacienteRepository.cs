@@ -23,5 +23,15 @@ namespace UsuarioAPI.Infrastructure.Repositories
 
             return paciente;
         }
+
+        public async Task<bool> VerificarExistenciaCPF(string CPF)
+        {
+            return await _dbSet.AnyAsync(c => c.CPF == CPF);
+        }
+
+        public async Task<bool> VerificarExistenciaEmail(string Email)
+        {
+            return await _dbSet.AnyAsync(e => e.Email == Email);
+        }
     }
 }
