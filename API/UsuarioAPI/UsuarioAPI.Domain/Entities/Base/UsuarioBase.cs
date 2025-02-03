@@ -1,9 +1,11 @@
-﻿namespace UsuarioAPI.Domain.Entities.Base
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace UsuarioAPI.Domain.Entities.Base
 {
     /// <summary>
     /// Classe base Usuário
     /// </summary>
-    public class UsuarioBase
+    public class UsuarioBase 
     {
         /// <summary>
         /// Id do Usuário
@@ -29,5 +31,11 @@
         /// Senha do Usuário
         /// </summary>
         public required string Senha { get; set; }
+        
+        /// <summary>
+        /// Tipo do usuário
+        /// </summary>
+        public required string Tipo { get; set; }
+        
     }
 }

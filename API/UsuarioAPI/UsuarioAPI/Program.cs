@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using System.Reflection;
 using UsuarioAPI.Application.Mappings;
+using UsuarioAPI.Application.UseCases.MedicoUseCases;
 using UsuarioAPI.Application.UseCases.PacienteUseCases;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Domain.Services;
@@ -60,12 +61,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repositórios
-builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+//builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ISecurityService, PasswordService>();
 
 
 // Use Cases
-builder.Services.AddScoped<CadastrarPacienteUseCase>();
+builder.Services.AddScoped<CadastrarUsuarioUseCase>();
+builder.Services.AddScoped<CadastrarMedicoUseCase>();
 
 
 

@@ -12,11 +12,8 @@ namespace UsuarioAPI.Infrastructure.AppDbContext.Configurations
 
             builder.HasKey(x => x.Id);
             builder.Property(p => p.Id).HasColumnType("INT").UseIdentityColumn();
-            builder.Property(p => p.Nome).HasColumnName("Nome").HasColumnType("VARCHAR(100)").IsRequired();
-            builder.Property(p => p.CPF).HasColumnName("CPF").HasColumnType("VARCHAR(14)").IsRequired();
+            builder.Property(p => p.IdUsuario).HasColumnName("IdUsuario").HasColumnType("INT").IsRequired();
             builder.Property(p => p.NumeroCRM).HasColumnName("NumeroCRM").HasColumnType("VARCHAR(10)").IsRequired();
-            builder.Property(p => p.Email).HasColumnName("Email").HasColumnType("VARCHAR(100)").IsRequired();
-            builder.Property(p => p.Senha).HasColumnName("Senha").HasColumnType("VARCHAR(100)").IsRequired();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Entities.Medico;
 using UsuarioAPI.Domain.Entities.Paciente;
 
@@ -19,8 +20,9 @@ namespace UsuarioAPI.Infrastructure.AppDbContext
         #endregion
 
         #region DbSets
-        public DbSet<Paciente> Paciente { get; set; }
-        public DbSet<Medico> Medico { get; set; }
+        //public DbSet<Paciente> Paciente { get; set; }
+        //public DbSet<Medico> Medico { get; set; }
+        public DbSet<UsuarioBase> UsuarioBase { get; set; }
         #endregion
 
         #region Métodos Override
