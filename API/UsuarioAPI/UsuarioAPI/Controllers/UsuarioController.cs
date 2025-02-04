@@ -48,8 +48,9 @@ namespace UsuarioAPI.Controllers
         {
             RetornoUsuarioCadastrado usuarioCadastrado = await _cadastrarUsuarioUseCase.Executar(usuarioDTO);
             
-            if (!String.IsNullOrEmpty(usuarioCadastrado.CRM))
+            if (!String.IsNullOrEmpty(usuarioDTO.CRM) && !String.IsNullOrEmpty(usuarioCadastrado.Id))
             {
+                usuarioCadastrado.CRM = usuarioDTO.CRM;
                 AdicionarMedicoDTO medicoDTO = new AdicionarMedicoDTO()
                 {
                     Id = usuarioCadastrado.Id,

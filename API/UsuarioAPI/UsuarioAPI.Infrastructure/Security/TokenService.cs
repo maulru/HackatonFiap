@@ -25,7 +25,7 @@ namespace UsuarioAPI.Infrastructure.Security
         {
             Claim[] claims = new Claim[] {
                 new Claim("email", usuario.Email),
-                new Claim("id",usuario.Id.ToString())
+                new Claim("id",usuario.Id)
             };
 
             var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SymmetricSecurityKey"]));

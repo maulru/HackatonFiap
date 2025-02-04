@@ -17,7 +17,7 @@ namespace UsuarioAPI.Infrastructure.AppDbContext.Configurations
             builder.ToTable("Usuario");
 
             builder.HasKey(x => x.Id);
-            builder.Property(p => p.Id).HasColumnType("INT").UseIdentityColumn();
+            builder.Property(p => p.Id).HasColumnType("NVARCHAR(450)").IsRequired();
             builder.Property(p => p.Nome).HasColumnName("Nome").HasColumnType("VARCHAR(100)").IsRequired();
             builder.Property(p => p.CPF).HasColumnName("CPF").HasColumnType("VARCHAR(14)").IsRequired();
             builder.Property(p => p.Email).HasColumnName("Email").HasColumnType("VARCHAR(100)").IsRequired();

@@ -11,7 +11,7 @@ namespace UsuarioAPI.Domain.Entities.Medico
         /// <summary>
         /// Id do usuário
         /// </summary>
-        public required int IdUsuario { get; set; }
+        public required string IdUsuario { get; set; }
 
         /// <summary>
         /// Número do CRM

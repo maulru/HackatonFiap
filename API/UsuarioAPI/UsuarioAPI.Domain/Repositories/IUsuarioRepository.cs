@@ -1,4 +1,5 @@
-﻿using UsuarioAPI.Domain.Entities.Base;
+﻿using Microsoft.AspNetCore.Identity;
+using UsuarioAPI.Domain.Entities.Base;
 
 namespace UsuarioAPI.Domain.Repositories
 {
@@ -20,6 +21,8 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="usuario"></param>
         /// <returns></returns>
         Task<UsuarioBase> AdicionarMedico(UsuarioBase usuario);
+
+        Task<IdentityResult> CadastraAsync(UsuarioBase usuario);
 
         /// <summary>
         /// Contrato responsável por verificar se o CPF Existe. (Retorna True caso exista)

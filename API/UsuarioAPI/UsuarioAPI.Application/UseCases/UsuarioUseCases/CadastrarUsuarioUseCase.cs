@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Exceptions;
@@ -31,9 +32,12 @@ namespace UsuarioAPI.Application.UseCases.PacienteUseCases
             usuario.Senha = _securityRepository.CriptografarSenha(usuario.Senha);
             usuario.Tipo = String.IsNullOrEmpty(usuarioDTO.CRM) ? "P" : "M";
 
-            UsuarioBase usuarioCadastrado = await _usuarioRepository.Adicionar(usuario);
+            usuario.UserName = usuario.Tipo == "M" ? usuarioDTO.CRM : usuario.Email;
+            //UsuarioBase usuarioCadastrado = await _usuarioRepository.Adicionar(usuario);
 
-            return _mapper.Map<RetornoUsuarioCadastrado>(usuarioCadastrado);
+            IdentityResult resultado = await _usuarioRepository.CadastraAsync(usuario);
+
+            return _mapper.Map<RetornoUsuarioCadastrado>(usuario);
         }
 
         private async Task<List<string>> ObterErrosValidacaoAsync(UsuarioBase usuario)

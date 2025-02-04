@@ -5,12 +5,8 @@ namespace UsuarioAPI.Domain.Entities.Base
     /// <summary>
     /// Classe base Usuário
     /// </summary>
-    public class UsuarioBase 
+    public class UsuarioBase : IdentityUser
     {
-        /// <summary>
-        /// Id do Usuário
-        /// </summary>
-        public int Id { get; set; }
 
         /// <summary>
         /// Nome do usuário
@@ -22,10 +18,6 @@ namespace UsuarioAPI.Domain.Entities.Base
         /// </summary>
         public required string CPF { get; set; }
 
-        /// <summary>
-        /// E-mail do Usuário
-        /// </summary>
-        public required string Email { get; set; }
 
         /// <summary>
         /// Senha do Usuário

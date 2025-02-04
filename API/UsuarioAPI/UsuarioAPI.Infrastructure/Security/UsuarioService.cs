@@ -10,8 +10,6 @@ namespace UsuarioAPI.Infrastructure.Security
         private SignInManager<UsuarioBase> _signInManager;
         private TokenService _tokenService;
 
-
-
         public UsuarioService(UserManager<UsuarioBase> userManager,
             SignInManager<UsuarioBase> signInManager,
             TokenService tokenService)
@@ -21,26 +19,7 @@ namespace UsuarioAPI.Infrastructure.Security
             _tokenService = tokenService;
         }
 
-        public async Task<string> Login(LoginDto dto)
-        {
-            var resultado = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, false, false);
 
-
-            if (!resultado.Succeeded)
-            {
-                throw new ApplicationException("Usuário não autenticado!");
-            }
-
-            var usuario = _signInManager
-                .UserManager
-                .Users
-                .FirstOrDefault(user => user.Email ==
-                dto.Email.ToUpper());
-
-            var token = _tokenService.GenerateToken(usuario);
-
-            return token;
-        }
 
     }
 }

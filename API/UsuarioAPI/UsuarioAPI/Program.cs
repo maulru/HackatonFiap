@@ -1,11 +1,16 @@
 using AspNetCore.Scalar;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using System.Reflection;
+using System.Text;
 using UsuarioAPI.Application.Mappings;
 using UsuarioAPI.Application.UseCases.MedicoUseCases;
 using UsuarioAPI.Application.UseCases.PacienteUseCases;
+using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Domain.Services;
 using UsuarioAPI.Infrastructure.AppDbContext;
@@ -66,12 +71,38 @@ builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ISecurityService, PasswordService>();
 
-
 // Use Cases
 builder.Services.AddScoped<CadastrarUsuarioUseCase>();
 builder.Services.AddScoped<CadastrarMedicoUseCase>();
 
+// Services
+builder.Services
+    .AddIdentity<UsuarioBase, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders(); //Geração de Tokens
 
+builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<TokenService>();
+
+// Token
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+    JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey =
+        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"])),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+
+    };
+}
+);
 
 var app = builder.Build();
 

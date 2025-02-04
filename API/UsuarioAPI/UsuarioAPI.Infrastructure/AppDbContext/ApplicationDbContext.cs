@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Entities.Medico;
@@ -6,13 +7,17 @@ using UsuarioAPI.Domain.Entities.Paciente;
 
 namespace UsuarioAPI.Infrastructure.AppDbContext
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<UsuarioBase>
     {
         #region Propriedades
         private readonly IConfiguration _connectionString;
         #endregion
 
         #region Construtores
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+        public ApplicationDbContext() { }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration connectionString) : base(options)
         {
             _connectionString = connectionString;
@@ -20,9 +25,6 @@ namespace UsuarioAPI.Infrastructure.AppDbContext
         #endregion
 
         #region DbSets
-        //public DbSet<Paciente> Paciente { get; set; }
-        //public DbSet<Medico> Medico { get; set; }
-        public DbSet<UsuarioBase> UsuarioBase { get; set; }
         #endregion
 
         #region Métodos Override
@@ -36,6 +38,7 @@ namespace UsuarioAPI.Infrastructure.AppDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
         #endregion
