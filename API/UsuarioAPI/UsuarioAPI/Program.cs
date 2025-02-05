@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using UsuarioAPI.Application.Mappings;
 using UsuarioAPI.Application.Services;
 using UsuarioAPI.Application.UseCases.MedicoUseCases;
@@ -23,7 +24,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -53,6 +60,7 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
+    c.UseInlineDefinitionsForEnums();
 });
 
 string connectionString = builder.Configuration.GetConnectionString("ConnectionString") ?? string.Empty;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Application.DTOs.Medico;
-using UsuarioAPI.Application.DTOs.Paciente;
 using UsuarioAPI.Application.UseCases.MedicoUseCases;
+using UsuarioAPI.Domain.Enums.Medico;
 
 namespace UsuarioAPI.Controllers
 {
@@ -11,10 +11,13 @@ namespace UsuarioAPI.Controllers
     public class MedicoController : ControllerBase
     {
         private readonly CadastrarMedicoUseCase _cadastrarMedicoUseCase;
+        private readonly ObterMedicosDisponiveisUseCase _obterMedicosDisponiveisUseCase;
 
-        public MedicoController(CadastrarMedicoUseCase cadastrarMedicoUseCase)
+        public MedicoController(CadastrarMedicoUseCase cadastrarMedicoUseCase, 
+            ObterMedicosDisponiveisUseCase obterMedicosDisponiveisUseCase)
         {
             _cadastrarMedicoUseCase = cadastrarMedicoUseCase;
+            _obterMedicosDisponiveisUseCase = obterMedicosDisponiveisUseCase;
         }
 
         /// <summary>
@@ -23,7 +26,7 @@ namespace UsuarioAPI.Controllers
         /// <remarks>
         /// **Exemplo de requisição:**
         /// 
-        ///     POST /Paciente/CadastrarMedico
+        ///     POST /Medico/CadastrarMedico
         ///     {
         ///        "nome": "João da Silva",
         ///        "cpf": "123.456.789-00",
@@ -46,6 +49,30 @@ namespace UsuarioAPI.Controllers
         {
             RetornoMedicoCadastrado medicoCadastrado = await _cadastrarMedicoUseCase.Cadastrar(medicoDTO);
             return CreatedAtAction(nameof(CadastrarMedico), new { id = medicoCadastrado.Id }, medicoCadastrado);
+        }
+
+        /// <summary>
+        /// Endpoint responsável por realizar a busca de médicos disponíveis
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     GET /Medico/Disponiveis?<paramref name="especialidades"/>
+        ///     
+        ///     OBS: É possível realizar a busca filtrando especialidades.
+        /// 
+        /// </remarks>
+        /// <param name="especialidades">Especialidades disponíveis para filtrar</param>
+        /// <returns>Médicos disponíveis</returns>
+        /// <response code="200">Médicos disponíveis retornado.</response>
+        /// <response code="400">Erro ao buscar médicos disponíveis.</response>
+        [HttpGet("Disponiveis/")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(RetornoMedicoCadastrado), 200)]
+        [ProducesResponseType(typeof(RetornoErroDTO), 400)]
+        public async Task<IActionResult> ObterMedicosDisponiveis([FromQuery] List<Especialidades>? especialidades)
+        {
+            return Ok();
         }
     }
 }

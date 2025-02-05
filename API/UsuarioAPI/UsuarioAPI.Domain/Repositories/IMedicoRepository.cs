@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsuarioAPI.Domain.Entities.Medico;
+﻿using UsuarioAPI.Domain.Entities.Medico;
+using UsuarioAPI.Domain.Enums.Medico;
 
 namespace UsuarioAPI.Domain.Repositories
 {
@@ -22,5 +18,12 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="numeroCRM"></param>
         /// <returns></returns>
         Task<bool> VerificarExistenciaCRM(string numeroCRM);
+
+        /// <summary>
+        /// Contrato responsável por obter a lista de médicos disponíveis
+        /// </summary>
+        /// <param name="filtroEspecialidades"></param>
+        /// <returns></returns>
+        Task<List<Medico>> ObterMedicosDisponiveis(List<Especialidades> filtroEspecialidades);
     }
 }

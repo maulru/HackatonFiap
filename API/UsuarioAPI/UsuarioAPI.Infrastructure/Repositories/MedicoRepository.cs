@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UsuarioAPI.Domain.Entities.Medico;
+using UsuarioAPI.Domain.Enums.Medico;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Infrastructure.AppDbContext;
 
@@ -22,6 +23,11 @@ namespace UsuarioAPI.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return medico;
+        }
+
+        public Task<List<Medico>> ObterMedicosDisponiveis(List<Especialidades> filtroEspecialidades)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> VerificarExistenciaCRM(string numeroCRM)
