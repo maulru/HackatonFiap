@@ -27,6 +27,10 @@ namespace UsuarioAPI.Application.Mappings
                .ForMember(dest => dest.CRM, opt => opt.Ignore()); // Se CRM não existir em UsuarioBase, ignor
             
             CreateMap<Medico, RetornoMedicoCadastrado>();
+
+            CreateMap<Medico, RetornoMedicoDisponivelDTO>()
+                .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Usuario.Nome)); 
+            
             CreateMap<CadMedicoDTO, UsuarioBase>();
 
         }

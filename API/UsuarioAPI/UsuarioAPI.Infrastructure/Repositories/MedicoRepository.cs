@@ -25,10 +25,21 @@ namespace UsuarioAPI.Infrastructure.Repositories
             return medico;
         }
 
-        public Task<List<Medico>> ObterMedicosDisponiveis(List<Especialidades> filtroEspecialidades)
+        public async Task<List<Medico>> ObterMedicosDisponiveis()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
+
+        public async Task<List<Medico>> ObterMedicosDisponiveisPorEspecialidade(List<Especialidades> filtroEspecialidades)
+        {
+            IQueryable<Medico> query = _dbSet.Include(m => m.Usuario);
+
+            if (filtroEspecialidades != null && filtroEspecialidades.Any())
+                query = query.Where(m => filtroEspecialidades.Contains(m.Especialidade));
+
+            return await query.ToListAsync();
+        }
+
 
         public async Task<bool> VerificarExistenciaCRM(string numeroCRM)
         {

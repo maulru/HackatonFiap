@@ -84,6 +84,7 @@ builder.Services.AddScoped<IUsuarioValidatorService, UsuarioValidatorService>();
 // Use Cases
 builder.Services.AddScoped<CadastrarUsuarioUseCase>();
 builder.Services.AddScoped<CadastrarMedicoUseCase>();
+builder.Services.AddScoped<ObterMedicosDisponiveisUseCase>();
 builder.Services.AddScoped<CadastrarPacienteUseCase>();
 
 // Services

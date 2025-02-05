@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using UsuarioAPI.Application.DTOs.Medico;
+using UsuarioAPI.Domain.Entities.Medico;
 using UsuarioAPI.Domain.Enums.Medico;
 using UsuarioAPI.Domain.Repositories;
 
@@ -15,9 +17,10 @@ namespace UsuarioAPI.Application.UseCases.MedicoUseCases
             _medicoRepository = medicoRepository;
         }
 
-        public async Task ObterMedicosDisponiveis(List<Especialidades> listaEspecialidades)
+        public async Task<List<RetornoMedicoDisponivelDTO>> Executar(List<Especialidades> listaEspecialidades)
         {
-
+            List<Medico> medicosDisponiveis = await _medicoRepository.ObterMedicosDisponiveisPorEspecialidade(listaEspecialidades);
+            return _mapper.Map<List<RetornoMedicoDisponivelDTO>>(medicosDisponiveis);
         }
     }
 }

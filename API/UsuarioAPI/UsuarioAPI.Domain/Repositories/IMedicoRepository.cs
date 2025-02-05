@@ -20,10 +20,16 @@ namespace UsuarioAPI.Domain.Repositories
         Task<bool> VerificarExistenciaCRM(string numeroCRM);
 
         /// <summary>
-        /// Contrato responsável por obter a lista de médicos disponíveis
+        /// Contrato responsável por obter a lista de médicos disponíveis por especialidade
         /// </summary>
         /// <param name="filtroEspecialidades"></param>
         /// <returns></returns>
-        Task<List<Medico>> ObterMedicosDisponiveis(List<Especialidades> filtroEspecialidades);
+        Task<List<Medico>> ObterMedicosDisponiveisPorEspecialidade(List<Especialidades> filtroEspecialidades);
+
+        /// <summary>
+        /// Contrato responsável por obter a lista de médicos disponíveis
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Medico>> ObterMedicosDisponiveis();
     }
 }

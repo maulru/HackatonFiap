@@ -68,11 +68,11 @@ namespace UsuarioAPI.Controllers
         /// <response code="400">Erro ao buscar médicos disponíveis.</response>
         [HttpGet("Disponiveis/")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(RetornoMedicoCadastrado), 200)]
+        [ProducesResponseType(typeof(RetornoMedicoDisponivelDTO), 200)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
         public async Task<IActionResult> ObterMedicosDisponiveis([FromQuery] List<Especialidades>? especialidades)
         {
-            return Ok();
+            return Ok(await _obterMedicosDisponiveisUseCase.Executar(especialidades));
         }
     }
 }
