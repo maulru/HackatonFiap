@@ -5,7 +5,11 @@ namespace UsuarioAPI.Domain.Entities.Paciente
     /// <summary>
     /// Classe entidade Paciente
     /// </summary>
-    public class Paciente : UsuarioBase
+    public class Paciente
     {
+        public int Id { get; set; }
+        public required string IdUsuario { get; set; }
+
+        public UsuarioBase Usuario { get; set; }
     }
 }

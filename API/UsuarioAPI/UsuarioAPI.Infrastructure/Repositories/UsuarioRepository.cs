@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Domain.Entities.Base;
+using UsuarioAPI.Domain.Exceptions;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Infrastructure.AppDbContext;
 using UsuarioAPI.Infrastructure.Security;
@@ -44,8 +45,16 @@ namespace UsuarioAPI.Infrastructure.Repositories
 
             if (!resultado.Succeeded)
             {
-                return IdentityResult.Failed(new IdentityError { Description = "Ocorreu um erro ao cadastrar o usuário." });
+                List<string> erros = new List<string>();
+
+                foreach (var erro in resultado.Errors)
+                {
+                    erros.Add(erro.Description);
+                }
+
+                throw new UserBaseExceptions(erros);
             }
+
             return resultado;
         }
 

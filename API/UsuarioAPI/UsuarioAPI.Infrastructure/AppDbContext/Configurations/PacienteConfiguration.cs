@@ -8,14 +8,16 @@ namespace UsuarioAPI.Infrastructure.AppDbContext.Configurations
     {
         public void Configure(EntityTypeBuilder<Paciente> builder)
         {
-           /* builder.ToTable(nameof(Paciente));
-
+            builder.ToTable(nameof(Paciente));
             builder.HasKey(x => x.Id);
             builder.Property(p => p.Id).HasColumnType("INT").UseIdentityColumn();
-            builder.Property(p => p.Nome).HasColumnName("Nome").HasColumnType("VARCHAR(100)").IsRequired();
-            builder.Property(p => p.CPF).HasColumnName("CPF").HasColumnType("VARCHAR(14)").IsRequired();
-            builder.Property(p => p.Email).HasColumnName("Email").HasColumnType("VARCHAR(100)").IsRequired();
-            builder.Property(p => p.Senha).HasColumnName("Senha").HasColumnType("VARCHAR(100)").IsRequired();*/
+            builder.Property(p => p.IdUsuario).HasColumnName("IdUsuario").HasColumnType("NVARCHAR(450)").IsRequired();
+
+            // Criando relacionamento com UsuarioBase
+            builder.HasOne(p => p.Usuario)
+                .WithOne() // Paciente tem um usuário
+                .HasForeignKey<Paciente>(p => p.IdUsuario) // FK para UsuarioBase
+                .OnDelete(DeleteBehavior.Cascade); // Se deletar o usuário, deleta o paciente
         }
     }
 }

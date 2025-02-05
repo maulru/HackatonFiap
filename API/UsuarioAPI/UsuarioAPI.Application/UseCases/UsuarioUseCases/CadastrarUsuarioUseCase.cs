@@ -21,18 +21,17 @@ namespace UsuarioAPI.Application.UseCases.PacienteUseCases
             _securityRepository = securityRepository;
         }
 
-        public async Task<RetornoUsuarioCadastrado> Executar(UsuarioDTO usuarioDTO)
+        public async Task<RetornoUsuarioCadastrado> Executar(UsuarioBase usuario)
         {
-            UsuarioBase usuario = _mapper.Map<UsuarioBase>(usuarioDTO);
             List<string> listaErros = await ObterErrosValidacaoAsync(usuario);
 
             if (listaErros.Any())
                 throw new UserBaseExceptions(listaErros);
 
             usuario.Senha = _securityRepository.CriptografarSenha(usuario.Senha);
-            usuario.Tipo = String.IsNullOrEmpty(usuarioDTO.CRM) ? "P" : "M";
+            //usuario.Tipo = String.IsNullOrEmpty(usuarioDTO.CRM) ? "P" : "M";
 
-            usuario.UserName = usuario.Tipo == "M" ? usuarioDTO.CRM : usuario.Email;
+            //usuario.UserName = usuario.Tipo == "M" ? usuarioDTO.CRM : usuario.Email;
             //UsuarioBase usuarioCadastrado = await _usuarioRepository.Adicionar(usuario);
 
             IdentityResult resultado = await _usuarioRepository.CadastraAsync(usuario);

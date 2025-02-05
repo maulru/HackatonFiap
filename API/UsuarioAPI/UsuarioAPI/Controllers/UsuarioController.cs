@@ -46,7 +46,8 @@ namespace UsuarioAPI.Controllers
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
         public async Task<IActionResult> CadastrarUsuario([FromBody] UsuarioDTO usuarioDTO)
         {
-            RetornoUsuarioCadastrado usuarioCadastrado = await _cadastrarUsuarioUseCase.Executar(usuarioDTO);
+            /*
+            RetornoUsuarioCadastrado usuarioCadastrado = await _cadastrarUsuarioUseCase.Executar(usuarioBase);
             
             if (!String.IsNullOrEmpty(usuarioDTO.CRM) && !String.IsNullOrEmpty(usuarioCadastrado.Id))
             {
@@ -60,6 +61,9 @@ namespace UsuarioAPI.Controllers
                 AdicionarMedico(medicoDTO);
             }
             return CreatedAtAction(nameof(CadastrarUsuario), new { id = usuarioCadastrado.Id }, usuarioCadastrado);
+            */
+
+            return Ok();
         }
 
         
@@ -71,10 +75,11 @@ namespace UsuarioAPI.Controllers
                 Medico medico = new Medico()
                 {
                     IdUsuario = model.Id,
-                    NumeroCRM = model.CRM
+                    NumeroCRM = model.CRM,
+                    Especialidade = 0
                 };
 
-                await _cadastrarMedicoUseCase.Cadastrar(medico);
+                //await _cadastrarMedicoUseCase.Cadastrar(medico);
                 return Ok(model);
             }
             catch (Exception ex) { 

@@ -15,5 +15,12 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="medico"></param>
         /// <returns></returns>
         Task<Medico> Adicionar (Medico medico);
+
+        /// <summary>
+        /// Contrato responsável por verificar a existencia de um CRM
+        /// </summary>
+        /// <param name="numeroCRM"></param>
+        /// <returns></returns>
+        Task<bool> VerificarExistenciaCRM(string numeroCRM);
     }
 }

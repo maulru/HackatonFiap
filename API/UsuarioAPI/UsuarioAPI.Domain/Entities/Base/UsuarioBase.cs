@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using UsuarioAPI.Domain.Enums;
 
 namespace UsuarioAPI.Domain.Entities.Base
 {
@@ -27,7 +28,7 @@ namespace UsuarioAPI.Domain.Entities.Base
         /// <summary>
         /// Tipo do usuário
         /// </summary>
-        public required string Tipo { get; set; }
+        public required TipoUsuario Tipo { get; set; }
         
     }
 }

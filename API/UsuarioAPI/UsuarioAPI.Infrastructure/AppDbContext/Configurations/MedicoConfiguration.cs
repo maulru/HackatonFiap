@@ -14,6 +14,13 @@ namespace UsuarioAPI.Infrastructure.AppDbContext.Configurations
             builder.Property(p => p.Id).HasColumnType("INT").UseIdentityColumn();
             builder.Property(p => p.IdUsuario).HasColumnName("IdUsuario").HasColumnType("NVARCHAR(450)").IsRequired();
             builder.Property(p => p.NumeroCRM).HasColumnName("NumeroCRM").HasColumnType("VARCHAR(10)").IsRequired();
+            builder.Property(p => p.Especialidade).HasColumnName("Especialidade").HasColumnType("INT").IsRequired();
+
+
+            builder.HasOne(p => p.Usuario)
+                .WithOne() 
+                .HasForeignKey<Medico>(p => p.IdUsuario) 
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

@@ -13,19 +13,5 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="paciente"></param>
         /// <returns></returns>
         Task<Paciente> Adicionar(Paciente paciente);
-
-        /// <summary>
-        /// Contrato responsável por verificar se o CPF Existe. (Retorna True caso exista)
-        /// </summary>
-        /// <param name="CPF"></param>
-        /// <returns></returns>
-        Task<bool> VerificarExistenciaCPF(string CPF);
-
-        /// <summary>
-        /// Contrato responsável por verificar se o Email Existe. (Retorna True caso exista)
-        /// </summary>
-        /// <param name="Email"></param>
-        /// <returns></returns>
-        Task<bool> VerificarExistenciaEmail(string Email);
     }
 }

@@ -23,5 +23,10 @@ namespace UsuarioAPI.Infrastructure.Repositories
 
             return medico;
         }
+
+        public async Task<bool> VerificarExistenciaCRM(string numeroCRM)
+        {
+            return await _dbSet.AnyAsync(e => e.NumeroCRM == numeroCRM);
+        }
     }
 }

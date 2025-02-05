@@ -12,6 +12,6 @@ namespace UsuarioAPI.Application.DTOs.Base
         public required string CPF { get; set; }
         public required string Email { get; set; }
         public required string Senha { get; set; }
-        public string? CRM { get; set; }
+        //public string? CRM { get; set; }
     }
 }

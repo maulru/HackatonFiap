@@ -8,6 +8,7 @@ using Scalar.AspNetCore;
 using System.Reflection;
 using System.Text;
 using UsuarioAPI.Application.Mappings;
+using UsuarioAPI.Application.Services;
 using UsuarioAPI.Application.UseCases.MedicoUseCases;
 using UsuarioAPI.Application.UseCases.PacienteUseCases;
 using UsuarioAPI.Domain.Entities.Base;
@@ -66,14 +67,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repositórios
-//builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ISecurityService, PasswordService>();
+builder.Services.AddScoped<IUsuarioValidatorService, UsuarioValidatorService>();
 
 // Use Cases
 builder.Services.AddScoped<CadastrarUsuarioUseCase>();
 builder.Services.AddScoped<CadastrarMedicoUseCase>();
+builder.Services.AddScoped<CadastrarPacienteUseCase>();
 
 // Services
 builder.Services
@@ -82,6 +85,7 @@ builder.Services
     .AddDefaultTokenProviders(); //Geração de Tokens
 
 builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<TokenService>();
 
 // Token

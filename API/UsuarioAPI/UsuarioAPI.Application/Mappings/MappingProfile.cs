@@ -16,6 +16,8 @@ namespace UsuarioAPI.Application.Mappings
             // Paciente
             CreateMap<CadPacienteDTO, Paciente>();
             CreateMap<Paciente, RetornoPacienteCadastrado>();
+            CreateMap<CadPacienteDTO, UsuarioBase>();
+
             CreateMap<UsuarioDTO, UsuarioBase>();
             
             CreateMap<UsuarioBase, RetornoUsuarioCadastrado>()
@@ -25,6 +27,7 @@ namespace UsuarioAPI.Application.Mappings
                .ForMember(dest => dest.CRM, opt => opt.Ignore()); // Se CRM não existir em UsuarioBase, ignor
             
             CreateMap<Medico, RetornoMedicoCadastrado>();
+            CreateMap<CadMedicoDTO, UsuarioBase>();
 
         }
     }
