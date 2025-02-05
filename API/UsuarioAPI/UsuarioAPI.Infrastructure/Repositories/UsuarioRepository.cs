@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UsuarioAPI.Application.DTOs.Base;
+using UsuarioAPI.Application.Services;
 using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Exceptions;
 using UsuarioAPI.Domain.Repositories;

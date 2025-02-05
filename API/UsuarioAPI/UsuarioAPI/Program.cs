@@ -93,7 +93,6 @@ builder.Services
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders(); //Geração de Tokens
 
-builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<TokenService>();
 

@@ -1,15 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using UsuarioAPI.Domain.Entities.Base;
 
-namespace UsuarioAPI.Infrastructure.Security
+namespace UsuarioAPI.Application.Services
 {
     public class TokenService
     {
@@ -25,7 +21,8 @@ namespace UsuarioAPI.Infrastructure.Security
         {
             Claim[] claims = new Claim[] {
                 new Claim("email", usuario.Email),
-                new Claim("id",usuario.Id)
+                new Claim("id",usuario.Id),
+                new Claim("tipo",usuario.Tipo.ToString())
             };
 
             var chave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SymmetricSecurityKey"]));

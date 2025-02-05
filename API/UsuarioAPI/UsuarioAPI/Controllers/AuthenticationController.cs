@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UsuarioAPI.Application.DTOs.Base;
-using UsuarioAPI.Infrastructure.Repositories;
-using UsuarioAPI.Infrastructure.Security;
+using UsuarioAPI.Application.Services;
 
 namespace UsuarioAPI.Controllers
 {
@@ -10,17 +9,17 @@ namespace UsuarioAPI.Controllers
     public class AuthenticationController : ControllerBase
     {
 
-        private UsuarioRepository _usuarioRepository;
+        private UsuarioServices _usuarioService;
 
-        public AuthenticationController(UsuarioRepository usuarioRepository)
+        public AuthenticationController(UsuarioServices usuarioService)
         {
-            _usuarioRepository = usuarioRepository;
+            _usuarioService = usuarioService;
         }
 
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginDto loginDto)
         {
-            var token = await _usuarioRepository.Login(loginDto);
+            var token = await _usuarioService.Login(loginDto);
             return Ok(token);
         }
     }
