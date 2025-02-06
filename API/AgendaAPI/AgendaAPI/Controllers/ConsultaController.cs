@@ -1,12 +1,15 @@
 ﻿using AgendaAPI.Application.DTOs.Agenda;
 using AgendaAPI.Application.UseCases.AgendaUseCases;
 using AgendaAPI.Application.UseCases.HorarioUseCases;
+using AgendaAPI.Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaAPI.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
+    [Authorize]
     public class ConsultaController : ControllerBase
     {
 
@@ -29,6 +32,7 @@ namespace AgendaAPI.Controllers
 
 
         [HttpGet("HorariosDisponiveis")]
+        [AuthorizePaciente]
         public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
         {
             var horarios = await _listarHorariosMedicoUseCase.ExecuteAsync(idMedico);
@@ -39,6 +43,7 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpPost("CadastrarAgendamento")]
+        [AuthorizePaciente]
         public async Task<IActionResult> CadastrarAgendamento([FromBody] CadAgendamentoDTO agendamentoDTO)
         {
             var agendamento = await _cadastrarAgendamentoUseCase.ExecuteAsync(agendamentoDTO);
@@ -49,6 +54,7 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpPut("CancelarAgendamento")]
+        [AuthorizePaciente]
         public async Task<IActionResult> CancelarAgendamento([FromQuery] int idAgendamento, [FromQuery] string justificativa)
         {
             if (string.IsNullOrWhiteSpace(justificativa))
@@ -61,15 +67,6 @@ namespace AgendaAPI.Controllers
 
             return Ok("Agendamento cancelado com sucesso.");
         }
-
-        /*
-         * ListarMedicos (por especialidade) (acionar endpoint da outra API)
-         * ListaHorariosMedico
-         * Cadastrar Agendamento
-         * Cancelar Agendamento
-         * 
-         */
-
 
     }
 }

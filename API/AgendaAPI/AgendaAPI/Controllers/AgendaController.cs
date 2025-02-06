@@ -1,15 +1,17 @@
 ﻿using AgendaAPI.Application.DTOs.Agenda;
 using AgendaAPI.Application.DTOs.Base;
 using AgendaAPI.Application.DTOs.Horario;
-using AgendaAPI.Application.DTOs.Medico;
 using AgendaAPI.Application.UseCases.AgendaUseCases;
 using AgendaAPI.Domain.Enums.Agenda;
+using AgendaAPI.Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaAPI.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
+    [Authorize]
     public class AgendaController : ControllerBase
     {
 
@@ -39,6 +41,7 @@ namespace AgendaAPI.Controllers
         [Consumes("application/json")]
         [ProducesResponseType(typeof(RetornoHorarioCadastrado), 201)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
+        [AuthorizeMedico]
         public async Task<IActionResult> CadastrarHorario([FromBody] CadAgendaDTO cadAgendaDTO)
         {
             RetornoHorarioCadastrado horarioCadastrado = await _cadastrarHorarioUseCase.CadastrarHorario(cadAgendaDTO);
@@ -51,6 +54,7 @@ namespace AgendaAPI.Controllers
         /// <param name="medicoDTO"></param>
         /// <returns></returns>
         [HttpGet("Horarios/")]
+        [AuthorizeMedico]
         public async Task<IActionResult> ListarAgendaMedico(int idMedico)
         {
             List<RetornoHorarioCadastrado> agendaMedico = await _listarAgendaMedicoUseCase.ObterHorariosAsync(idMedico);
@@ -62,6 +66,7 @@ namespace AgendaAPI.Controllers
         [ProducesResponseType(typeof(RetornoHorarioCadastrado), 200)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
         [ProducesResponseType(typeof(RetornoErroDTO), 404)]
+        [AuthorizeMedico]
         public async Task<IActionResult> AlterarHorario([FromBody] CadAgendaDTO agendaDTO)
         {
             var horarioAlterado = await _alterarHorarioUseCase.AlterarHorario(agendaDTO);
@@ -73,6 +78,7 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpGet("HorariosPendentesOuAgendados")]
+        [AuthorizeMedico]
         public async Task<IActionResult> ObterHorariosPendentesOuAgendados([FromQuery] int idMedico)
         {
             var horarios = await _obterHorariosPendentesOuAgendadosUseCase.ExecuteAsync(idMedico);
@@ -80,6 +86,7 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpPut("AlterarStatusAgendamento")]
+        [AuthorizeMedico]
         public async Task<IActionResult> AlterarStatusAgendamento([FromQuery] int idAgendamento, [FromQuery] Disponibilidade novoStatus, [FromQuery] string observacoes = "")
         {
             bool sucesso = await _alterarStatusAgendamentoUseCase.ExecuteAsync(idAgendamento, novoStatus, observacoes);
@@ -90,6 +97,7 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpGet("HorariosDisponiveis")]
+        [AuthorizeMedico]
         public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
         {
             var horarios = await _obterHorariosDisponiveisUseCase.ExecuteAsync(idMedico);
