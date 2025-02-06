@@ -33,8 +33,10 @@ namespace AgendaAPI.Domain.Entities.Agenda
         /// Propriedade para armazenar demais informações do agendamento, 
         /// como motivo do cancelamento
         /// </summary>
-        public string Observacoes { get; set; }
-
-
+        public string? Observacoes { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual Horario? Horario { get; set; }
     }
 }

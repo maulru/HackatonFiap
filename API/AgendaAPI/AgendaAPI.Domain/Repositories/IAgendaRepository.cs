@@ -16,7 +16,7 @@ namespace AgendaAPI.Domain.Repositories
 
         Task<List<Horario>> ObterHorariosPendentesOuAgendadosAsync(int idMedico);
         Task<bool> AlterarStatusAgendamentoAsync(int idAgendamento, Disponibilidade novoStatus, string observacoes = "");
-
+        Task<List<Horario>> ObterHorariosDisponiveisAsync(int idMedico);
 
     }
 }

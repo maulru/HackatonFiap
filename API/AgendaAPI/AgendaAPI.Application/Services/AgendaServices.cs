@@ -50,5 +50,10 @@ namespace AgendaAPI.Application.Services
             return await _agendaRepository.AlterarStatusAgendamentoAsync(idAgendamento, novoStatus, observacoes);
         }
 
+        public async Task<List<RetornoHorarioCadastrado>> ObterHorariosDisponiveisAsync(int idMedico)
+        {
+            List<Horario> horarios = await _agendaRepository.ObterHorariosDisponiveisAsync(idMedico);
+            return _mapper.Map<List<RetornoHorarioCadastrado>>(horarios);
+        }
     }
 }

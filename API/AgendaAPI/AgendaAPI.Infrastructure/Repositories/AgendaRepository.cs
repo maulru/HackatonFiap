@@ -73,5 +73,12 @@ namespace AgendaAPI.Infrastructure.Repositories
             return true;
         }
 
+        public async Task<List<Horario>> ObterHorariosDisponiveisAsync(int idMedico)
+        {
+            return await _dbSet
+                .Where(h => h.IdMedico == idMedico && h.Disponibilidade == Disponibilidade.Disponivel)
+                .ToListAsync();
+        }
+
     }
 }

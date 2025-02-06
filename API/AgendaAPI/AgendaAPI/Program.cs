@@ -1,6 +1,7 @@
 using AgendaAPI.Application.Mappings;
 using AgendaAPI.Application.Services;
 using AgendaAPI.Application.UseCases.AgendaUseCases;
+using AgendaAPI.Application.UseCases.HorarioUseCases;
 using AgendaAPI.Domain.Repositories;
 using AgendaAPI.Infrastructure.AppDbContext;
 using AgendaAPI.Infrastructure.Repositories;
@@ -58,15 +59,23 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repositórios
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+builder.Services.AddScoped<IConsultaRepository, ConsultaRepository>();
 
 // Use Cases
 builder.Services.AddScoped<CadastrarHorarioUseCase>();
+builder.Services.AddScoped<ListarAgendaMedicoUseCase>();
+builder.Services.AddScoped<AlterarHorarioUseCase>();
 builder.Services.AddScoped<ObterHorariosPendentesOuAgendadosUseCase>();
 builder.Services.AddScoped<AlterarStatusAgendamentoUseCase>();
-builder.Services.AddScoped<AlterarHorarioUseCase>();
+builder.Services.AddScoped<CadastrarAgendamentoUseCase>();
+builder.Services.AddScoped<CancelarAgendamentoUseCase>();
+builder.Services.AddScoped<ObterHorariosDisponiveisUseCase>();
+builder.Services.AddScoped<ListarMedicoUseCase>();
+builder.Services.AddScoped<ListarHorariosMedicoUseCase>();
 
 // Services
 builder.Services.AddScoped<AgendaServices>();
+builder.Services.AddScoped <ConsultaServices>();
 
 // Token
 builder.Services.AddAuthentication(options =>

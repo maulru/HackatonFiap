@@ -18,19 +18,21 @@ namespace AgendaAPI.Controllers
         private readonly AlterarHorarioUseCase _alterarHorarioUseCase;
         private readonly AlterarStatusAgendamentoUseCase _alterarStatusAgendamentoUseCase;
         private readonly ObterHorariosPendentesOuAgendadosUseCase _obterHorariosPendentesOuAgendadosUseCase;
+        private readonly ObterHorariosDisponiveisUseCase _obterHorariosDisponiveisUseCase;
 
         public AgendaController(CadastrarHorarioUseCase cadastrarHorarioUseCase,
             ListarAgendaMedicoUseCase listarAgendaMedicoUseCase,
             AlterarHorarioUseCase alterarHorarioUseCase,
             AlterarStatusAgendamentoUseCase alterarStatusAgendamentoUseCase,
-            ObterHorariosPendentesOuAgendadosUseCase obterHorariosPendentesOuAgendadosUseCase)
+            ObterHorariosPendentesOuAgendadosUseCase obterHorariosPendentesOuAgendadosUseCase,
+            ObterHorariosDisponiveisUseCase obterHorariosDisponiveisUseCase)
         {
             _cadastrarHorarioUseCase = cadastrarHorarioUseCase;
             _listarAgendaMedicoUseCase = listarAgendaMedicoUseCase;
             _alterarHorarioUseCase = alterarHorarioUseCase;
             _alterarStatusAgendamentoUseCase = alterarStatusAgendamentoUseCase;
             _obterHorariosPendentesOuAgendadosUseCase = obterHorariosPendentesOuAgendadosUseCase;
-
+            _obterHorariosDisponiveisUseCase = obterHorariosDisponiveisUseCase;
         }
 
         [HttpPost("CadastrarHorario/")]
@@ -87,7 +89,15 @@ namespace AgendaAPI.Controllers
             return Ok("Status atualizado com sucesso.");
         }
 
+        [HttpGet("HorariosDisponiveis")]
+        public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
+        {
+            var horarios = await _obterHorariosDisponiveisUseCase.ExecuteAsync(idMedico);
+            if (horarios == null || horarios.Count == 0)
+                return NotFound("Nenhum horário disponível encontrado para este médico.");
 
+            return Ok(horarios);
+        }
 
     }
 }
