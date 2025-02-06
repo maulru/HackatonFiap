@@ -1,20 +1,11 @@
 ﻿using AgendaAPI.Domain.Enums.Agenda;
 
-namespace AgendaAPI.Domain.Entities.Agenda
+namespace AgendaAPI.Application.DTOs.Horario
 {
-    public class Horario
+    public class RetornoHorarioCadastrado
     {
-        /// <summary>
-        /// Id do horário
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// Id do médico
-        /// </summary>
-        public int IdMedico { get; set; }
-        /// <summary>
-        /// Data disponível para a consulta
-        /// </summary>
+
         public DateTime DataConsulta { get; set; }
         /// <summary>
         /// Horario inicio para a consulta
@@ -28,11 +19,7 @@ namespace AgendaAPI.Domain.Entities.Agenda
         /// Status de disponibilidade
         /// </summary>
         public Disponibilidade Disponibilidade { get; set; }
-
-        /// <summary>
-        /// Valor da consulta
-        /// </summary>
-        public double ValorConsulta { get; set; }
-
     }
+
+    
 }

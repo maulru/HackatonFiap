@@ -12,21 +12,6 @@ namespace AgendaAPI.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Medico",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdUsuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumeroCRM = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Especialidade = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medico", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Horario",
                 columns: table => new
                 {
@@ -41,18 +26,7 @@ namespace AgendaAPI.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Horario", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Horario_Medico_IdMedico",
-                        column: x => x.IdMedico,
-                        principalTable: "Medico",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Horario_IdMedico",
-                table: "Horario",
-                column: "IdMedico");
         }
 
         /// <inheritdoc />
@@ -60,9 +34,6 @@ namespace AgendaAPI.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Horario");
-
-            migrationBuilder.DropTable(
-                name: "Medico");
         }
     }
 }

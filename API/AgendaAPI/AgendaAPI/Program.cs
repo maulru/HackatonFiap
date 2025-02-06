@@ -61,6 +61,9 @@ builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 
 // Use Cases
 builder.Services.AddScoped<CadastrarHorarioUseCase>();
+builder.Services.AddScoped<ObterHorariosPendentesOuAgendadosUseCase>();
+builder.Services.AddScoped<AlterarStatusAgendamentoUseCase>();
+builder.Services.AddScoped<AlterarHorarioUseCase>();
 
 // Services
 builder.Services.AddScoped<AgendaServices>();
@@ -86,6 +89,13 @@ builder.Services.AddAuthentication(options =>
 );
 
 var app = builder.Build();
+
+// Aplicar as migrations após subir a aplicação.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -47,44 +47,7 @@ namespace AgendaAPI.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdMedico");
-
                     b.ToTable("Horario", (string)null);
-                });
-
-            modelBuilder.Entity("AgendaAPI.Domain.Entities.Medico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Especialidade")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroCRM")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Medico");
-                });
-
-            modelBuilder.Entity("AgendaAPI.Domain.Entities.Agenda.Horario", b =>
-                {
-                    b.HasOne("AgendaAPI.Domain.Entities.Medico", "Medico")
-                        .WithMany()
-                        .HasForeignKey("IdMedico")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Medico");
                 });
 #pragma warning restore 612, 618
         }

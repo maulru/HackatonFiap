@@ -14,27 +14,23 @@ services:
 
   usuarioapi:
     build:
-      context: ./UsuarioAPI
-      dockerfile: Dockerfile  # <- Agora correto
+      context: .
+      dockerfile: ./API/UsuarioAPI/Dockerfile
     container_name: usuarioapi
     depends_on:
       - sqlserver
     ports:
       - "8080:8080"
-    environment:
-      - SymmetricSecurityKey=Med&Care@OurSafeKey2025!@#$%!@#$%@
 
   agendaapi:
     build:
-      context: ../AgendaAPI/AgendaAPI
-      dockerfile: Dockerfile  # <- Agora correto
+      context: .
+      dockerfile: ./API/AgendaAPI/Dockerfile
     container_name: agendaapi
     depends_on:
       - sqlserver
     ports:
-      - "5002:5002"
-    environment:
-      - SymmetricSecurityKey=Med&Care@OurSafeKey2025!@#$%!@#$%@
+      - "8081:8081"
 
 volumes:
   sqlserver_data:
