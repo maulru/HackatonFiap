@@ -13,6 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["AgendaAPI/AgendaAPI.csproj", "AgendaAPI/"]
+COPY ["AgendaAPI.Application/AgendaAPI.Application.csproj", "AgendaAPI.Application/"]
+COPY ["AgendaAPI.Domain/AgendaAPI.Domain.csproj", "AgendaAPI.Domain/"]
+COPY ["AgendaAPI.Infrastructure/AgendaAPI.Infrastructure.csproj", "AgendaAPI.Infrastructure/"]
 RUN dotnet restore "./AgendaAPI/AgendaAPI.csproj"
 COPY . .
 WORKDIR "/src/AgendaAPI"

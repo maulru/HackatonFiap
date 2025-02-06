@@ -1,0 +1,6 @@
+services:
+  agendaapi:
+    image: ${DOCKER_REGISTRY-}agendaapi
+    build:
+      context: .
+      dockerfile: AgendaAPI/Dockerfile
