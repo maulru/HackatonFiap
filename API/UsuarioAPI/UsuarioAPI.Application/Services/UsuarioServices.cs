@@ -11,19 +11,17 @@ namespace UsuarioAPI.Application.Services
     public class UsuarioServices
     {
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly ISecurityService _securityRepository;
         private readonly IMapper _mapper;
         private readonly IUsuarioValidatorService _usuarioValidator;
         private UserManager<UsuarioBase> _userManager;
         private SignInManager<UsuarioBase> _signInManager;
         private TokenService _tokenService;
 
-        public UsuarioServices(IUsuarioRepository usuarioRepository, ISecurityService securityRepository, 
+        public UsuarioServices(IUsuarioRepository usuarioRepository, 
             IMapper mapper, IUsuarioValidatorService usuarioValidator, SignInManager<UsuarioBase> signInManager,
             TokenService tokenService, UserManager<UsuarioBase> userManager)
         {
             _usuarioRepository = usuarioRepository;
-            _securityRepository = securityRepository;
             _mapper = mapper;
             _usuarioValidator = usuarioValidator;
             _signInManager = signInManager;

@@ -11,14 +11,12 @@ namespace UsuarioAPI.Application.UseCases.PacienteUseCases
     public class CadastrarUsuarioUseCase
     {
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly ISecurityService _securityRepository;
         private readonly IMapper _mapper;
 
-        public CadastrarUsuarioUseCase(IUsuarioRepository pacienteRepository, IMapper mapper, ISecurityService securityRepository)
+        public CadastrarUsuarioUseCase(IUsuarioRepository pacienteRepository, IMapper mapper)
         {
             _usuarioRepository = pacienteRepository;
             _mapper = mapper;
-            _securityRepository = securityRepository;
         }
 
         public async Task<RetornoUsuarioCadastrado> Executar(UsuarioBase usuario)
@@ -28,7 +26,6 @@ namespace UsuarioAPI.Application.UseCases.PacienteUseCases
             if (listaErros.Any())
                 throw new UserBaseExceptions(listaErros);
 
-            usuario.Senha = _securityRepository.CriptografarSenha(usuario.Senha);
             //usuario.Tipo = String.IsNullOrEmpty(usuarioDTO.CRM) ? "P" : "M";
 
             //usuario.UserName = usuario.Tipo == "M" ? usuarioDTO.CRM : usuario.Email;

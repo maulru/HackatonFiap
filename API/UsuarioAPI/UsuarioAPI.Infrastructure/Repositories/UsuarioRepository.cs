@@ -7,7 +7,6 @@ using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Exceptions;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Infrastructure.AppDbContext;
-using UsuarioAPI.Infrastructure.Security;
 
 namespace UsuarioAPI.Infrastructure.Repositories
 {

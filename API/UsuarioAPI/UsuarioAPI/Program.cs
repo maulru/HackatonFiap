@@ -17,7 +17,6 @@ using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Domain.Services;
 using UsuarioAPI.Infrastructure.AppDbContext;
 using UsuarioAPI.Infrastructure.Repositories;
-using UsuarioAPI.Infrastructure.Security;
 using UsuarioAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,7 +77,6 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ISecurityService, PasswordService>();
 builder.Services.AddScoped<IUsuarioValidatorService, UsuarioValidatorService>();
 
 // Use Cases

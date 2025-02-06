@@ -7,23 +7,20 @@ using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Entities.Paciente;
 using UsuarioAPI.Domain.Enums;
 using UsuarioAPI.Domain.Repositories;
-using UsuarioAPI.Domain.Services;
 
 namespace UsuarioAPI.Application.UseCases.PacienteUseCases
 {
     public class CadastrarPacienteUseCase
     {
         private readonly IPacienteRepository _pacienteRepository;
-        private readonly ISecurityService _securityRepository;
         private readonly UsuarioServices _usuarioService;
         private readonly IMapper _mapper;
 
-        public CadastrarPacienteUseCase(IPacienteRepository pacienteRepository, IMapper mapper, 
-            ISecurityService securityRepository, UsuarioServices usuarioService)
+        public CadastrarPacienteUseCase(IPacienteRepository pacienteRepository, IMapper mapper,
+             UsuarioServices usuarioService)
         {
             _pacienteRepository = pacienteRepository;
             _mapper = mapper;
-            _securityRepository = securityRepository;
             _usuarioService = usuarioService;
         }
 
