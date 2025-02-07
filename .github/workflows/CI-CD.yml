@@ -73,16 +73,18 @@ jobs:
       - name: Construindo e enviando imagem da API de Usuários
         uses: docker/build-push-action@v5
         with:
-          context: /API/UsuarioAPI/UsuarioAPI
-          tags: trickfx/usuarioapi:latest
+          context: ./API/UsuarioAPI/UsuarioAPI
+          file: ./API/UsuarioAPI/UsuarioAPI/Dockerfile
           push: true
+          tags: trickfx/usuarioapi:latest
 
       - name: Construindo e enviando imagem da API de Agendas
         uses: docker/build-push-action@v5
         with:
-          context: /API/AgendaAPI/AgendaAPI
-          tags: trickfx/agendaapi:latest
+          context: ./API/AgendaAPI/AgendaAPI
+          file: ./API/AgendaAPI/AgendaAPI/Dockerfile
           push: true
+          tags: trickfx/agendaapi:latest
 
       - name: Finalizando a sessão do docker
         run: docker logout
