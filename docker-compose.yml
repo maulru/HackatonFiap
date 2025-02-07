@@ -15,7 +15,7 @@ services:
   usuarioapi:
     build:
       context: .
-      dockerfile: ./API/UsuarioAPI/Dockerfile
+      dockerfile: ./API/UsuarioAPI/UsuarioAPI/Dockerfile
     container_name: usuarioapi
     depends_on:
       - sqlserver
@@ -25,12 +25,14 @@ services:
   agendaapi:
     build:
       context: .
-      dockerfile: ./API/AgendaAPI/Dockerfile
+      dockerfile: ./API/AgendaAPI/AgendaAPI/Dockerfile
     container_name: agendaapi
     depends_on:
       - sqlserver
     ports:
-      - "8081:8081"
+      - "5002:5002"
+    environment:
+      - ASPNETCORE_URLS=http://+:5002
 
 volumes:
   sqlserver_data:

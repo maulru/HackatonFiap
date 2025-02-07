@@ -6,17 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UsuarioAPI.Application.Mappings;
 using UsuarioAPI.Application.Services;
 using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Exceptions;
 using UsuarioAPI.Domain.Repositories;
 using UsuarioAPI.Domain.Services;
-using Xunit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using UsuarioAPI.Infrastructure.Repositories;
 
 namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
 {
@@ -28,6 +24,7 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
         private readonly SignInManager<UsuarioBase> _signInManager;
         private readonly TokenService _tokenService;
         private readonly Mock<IUsuarioRepository> _usuarioRepositoryMock;
+        private readonly Mock<IMedicoRepository> _medicoRepository;
         private readonly Mock<IUsuarioValidatorService> _usuarioValidatorMock;
         private readonly IMapper _mapper;
 
@@ -35,6 +32,7 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
         {
             _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
             _usuarioValidatorMock = new Mock<IUsuarioValidatorService>();
+            _medicoRepository = new Mock<IMedicoRepository>();
 
             var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             _mapper = config.CreateMapper();
@@ -49,7 +47,8 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
                 _usuarioValidatorMock.Object,
                 _signInManager,
                 _tokenService,
-                _userManager
+                _userManager,
+                _medicoRepository.Object
             );
         }
 

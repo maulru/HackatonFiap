@@ -38,14 +38,14 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "API de Gerenciamento de Médicos e Pacientes",
+        Title = "API de Gerenciamento de MÃ©dicos e Pacientes",
         Version = "v1",
-        Description = "A API de Gerenciamento de Médicos e Pacientes é responsável por realizar o cadastro de médicos e pacientes," +
-        "além de realizar a autenticação via JWT.",
-        
+        Description = "A API de Gerenciamento de MÃ©dicos e Pacientes Ã© responsÃ¡vel por realizar o cadastro de mÃ©dicos e pacientes, " +
+                      "alÃ©m de realizar a autenticaÃ§Ã£o via JWT.",
+
         Contact = new OpenApiContact
         {
-            Name = "Programadores: Antonio Kauã e Mauro Roberto.",
+            Name = "Programadores: Antonio KauÃ£ e Mauro Roberto.",
             Email = "kaubatista545@hotmail.com"
         },
 
@@ -58,7 +58,17 @@ builder.Services.AddSwaggerGen(c =>
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
+
+    if (File.Exists(xmlPath))
+    {
+        // Garante que o XML seja carregado corretamente com UTF-8
+        var xmlBytes = File.ReadAllBytes(xmlPath);
+        var xmlContent = Encoding.UTF8.GetString(xmlBytes);
+        File.WriteAllText(xmlPath, xmlContent, Encoding.UTF8);
+
+        c.IncludeXmlComments(xmlPath);
+    }
+
     c.UseInlineDefinitionsForEnums();
 });
 
@@ -73,7 +83,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Repositórios
+// Repositï¿½rios
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -89,7 +99,7 @@ builder.Services.AddScoped<CadastrarPacienteUseCase>();
 builder.Services
     .AddIdentity<UsuarioBase, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders(); //Geração de Tokens
+    .AddDefaultTokenProviders(); //Geraï¿½ï¿½o de Tokens
 
 builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<TokenService>();
@@ -116,10 +126,10 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Aplicando o Middleware de exceção
+// Aplicando o Middleware de exceï¿½ï¿½o
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Aplicar as migrations após subir a aplicação.
+// Aplicar as migrations apï¿½s subir a aplicaï¿½ï¿½o.
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -140,7 +150,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

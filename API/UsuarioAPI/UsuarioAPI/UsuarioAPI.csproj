@@ -10,6 +10,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<NoWarn>1591</NoWarn>
 	<DockerfileContext>..\..\..</DockerfileContext>
+	<OutputEncoding>utf-8</OutputEncoding>
   </PropertyGroup>
 
   <ItemGroup>
