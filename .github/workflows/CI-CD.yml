@@ -51,4 +51,4 @@ jobs:
           path: "./build"
 
       - name: Realizando testes unitários e de integração
-        run: dotnet test ./build/HealthMed.sln
+        run: dotnet test ./build/**/UsuarioAPI.Tests.dll --no-build --configuration Release
