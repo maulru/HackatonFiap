@@ -1,1 +1,32 @@
+name: CI/CD
 
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Realizando o checkout do fonte
+        uses: actions/checkout@v4
+
+      - name: Instalando o SDK do .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Realizando a restauração de pacotes Nuget
+        run: dotnet restore HealthMed.sln
+
+      - name: Realizando o build da aplicação
+        run: dotnet build HealthMed.sln --no-restore --configuration Release
+
+      - name: Publicando artefatos do build
+        uses: actions/upload-artifact@v3
+        with:
+          name: BuildOutput
+          path: "**/bin/Release/**"
