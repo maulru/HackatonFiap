@@ -73,7 +73,7 @@ jobs:
       - name: Construindo e enviando imagem da API de Usuários
         uses: docker/build-push-action@v5
         with:
-          context: ./API/UsuarioAPI/
+          context: .
           file: ./API/UsuarioAPI/UsuarioAPI/Dockerfile
           push: true
           tags: trickfx/usuarioapi:latest
@@ -81,7 +81,7 @@ jobs:
       - name: Construindo e enviando imagem da API de Agendas
         uses: docker/build-push-action@v5
         with:
-          context: ./API/AgendaAPI/AgendaAPI
+          context: .
           file: ./API/AgendaAPI/AgendaAPI/Dockerfile
           push: true
           tags: trickfx/agendaapi:latest
