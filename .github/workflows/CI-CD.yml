@@ -74,6 +74,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./API/UsuarioAPI
+          tags: trickfx/usuarioapi:latest
           file: UsuarioAPI/Dockerfile
           push: true
 
@@ -81,6 +82,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./API/AgendaAPI
+          tags: trickfx/agendaapi:latest
           file: AgendaAPI/Dockerfile
           push: true
 
