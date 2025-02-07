@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AgendaAPI\AgendaAPI.Infrastructure\AgendaAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\UsuarioAPI.Application\UsuarioAPI.Application.csproj" />
     <ProjectReference Include="..\UsuarioAPI.Infrastructure\UsuarioAPI.Infrastructure.csproj" />
   </ItemGroup>

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Application.Services;
 using UsuarioAPI.Domain.Entities.Base;
 using UsuarioAPI.Domain.Exceptions;
@@ -58,7 +56,7 @@ namespace UsuarioAPI.Infrastructure.Repositories
             return resultado;
         }
 
-        public async Task<string> Login(LoginDto dto)
+        /*public async Task<string> Login(LoginDTO dto)
         {
             var resultado = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, false, false);
 
@@ -77,7 +75,7 @@ namespace UsuarioAPI.Infrastructure.Repositories
             var token = _tokenService.GenerateToken(usuario);
 
             return token;
-        }
+        }*/
 
         public async Task<UsuarioBase> AdicionarMedico(UsuarioBase usuario)
         {

@@ -16,10 +16,17 @@ namespace UsuarioAPI.Controllers
             _usuarioService = usuarioService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> LoginAsync(LoginDto loginDto)
+        [HttpPost("Login/Paciente")]
+        public async Task<IActionResult> LoginPacienteAsync([FromBody] LoginPacienteDto loginDto)
         {
-            var token = await _usuarioService.Login(loginDto);
+            var token = await _usuarioService.LoginPacienteAsync(loginDto);
+            return Ok(token);
+        }
+
+        [HttpPost("Login/Medico")]
+        public async Task<IActionResult> LoginMedicoAsync([FromBody] LoginMedicoDto loginDto)
+        {
+            var token = await _usuarioService.LoginMedicoAsync(loginDto);
             return Ok(token);
         }
     }

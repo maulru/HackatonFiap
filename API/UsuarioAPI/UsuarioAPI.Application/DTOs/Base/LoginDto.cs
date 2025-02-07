@@ -2,10 +2,18 @@
 
 namespace UsuarioAPI.Application.DTOs.Base
 {
-    public class LoginDto
+    public class LoginPacienteDto
     {
         [Required]
-        public string Email { get; set; }
+        public string EmailOuCPF { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
+
+    public class LoginMedicoDto
+    {
+        [Required]
+        public string CRM { get; set; }
         [Required]
         public string Password { get; set; }
     }
