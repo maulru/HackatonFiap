@@ -30,3 +30,25 @@ jobs:
         with:
           name: BuildOutput
           path: "**/bin/Release/**"
+
+  Testes_Unitarios_Integracao:
+    runs-on: ubuntu-latest
+    needs: Build
+
+    steps:
+      - name: Realizando o checkout do fonte
+        uses: actions/checkout@v4
+
+      - name: Instalando o SDK do .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Baixando artefatos do build
+        uses: actions/download-artifact@v4
+        with:
+          name: BuildOutput
+          path: "./build"
+
+      - name: Realizando testes unitários e de integração
+        run: dotnet test ./build/HealthMed.sln
