@@ -26,7 +26,7 @@ jobs:
         run: dotnet build HealthMed.sln --no-restore --configuration Release
 
       - name: Publicando artefatos do build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: BuildOutput
           path: "**/bin/Release/**"
