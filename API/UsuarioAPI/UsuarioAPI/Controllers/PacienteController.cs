@@ -10,13 +10,18 @@ namespace UsuarioAPI.Controllers
     [Route("[Controller]")]
     public class PacienteController : ControllerBase
     {
+        #region Propriedades
         private readonly CadastrarPacienteUseCase _cadastrarPacienteUseCase;
+        #endregion
 
+        #region Construtores
         public PacienteController(CadastrarPacienteUseCase cadastrarPacienteUseCase)
         {
             _cadastrarPacienteUseCase = cadastrarPacienteUseCase;
         }
+        #endregion
 
+        #region Actions
         /// <summary>
         /// Endpoint responsável por realizar o cadastro de um paciente.
         /// </summary>
@@ -45,5 +50,6 @@ namespace UsuarioAPI.Controllers
             RetornoPacienteCadastrado pacienteCadastrado = await _cadastrarPacienteUseCase.Executar(pacienteDTO);
             return CreatedAtAction(nameof(CadastrarPaciente), new { id = pacienteCadastrado.Id }, pacienteCadastrado);
         }
+        #endregion
     }
 }

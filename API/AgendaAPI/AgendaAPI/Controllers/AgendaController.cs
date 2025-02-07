@@ -14,15 +14,18 @@ namespace AgendaAPI.Controllers
     [Authorize]
     public class AgendaController : ControllerBase
     {
-
+        #region Propriedades
         private readonly CadastrarHorarioUseCase _cadastrarHorarioUseCase;
         private readonly ListarAgendaMedicoUseCase _listarAgendaMedicoUseCase;
         private readonly AlterarHorarioUseCase _alterarHorarioUseCase;
         private readonly AlterarStatusAgendamentoUseCase _alterarStatusAgendamentoUseCase;
         private readonly ObterHorariosPendentesOuAgendadosUseCase _obterHorariosPendentesOuAgendadosUseCase;
         private readonly ObterHorariosDisponiveisUseCase _obterHorariosDisponiveisUseCase;
+        #endregion
 
-        public AgendaController(CadastrarHorarioUseCase cadastrarHorarioUseCase,
+        #region Construtores
+        public AgendaController(
+            CadastrarHorarioUseCase cadastrarHorarioUseCase,
             ListarAgendaMedicoUseCase listarAgendaMedicoUseCase,
             AlterarHorarioUseCase alterarHorarioUseCase,
             AlterarStatusAgendamentoUseCase alterarStatusAgendamentoUseCase,
@@ -36,8 +39,27 @@ namespace AgendaAPI.Controllers
             _obterHorariosPendentesOuAgendadosUseCase = obterHorariosPendentesOuAgendadosUseCase;
             _obterHorariosDisponiveisUseCase = obterHorariosDisponiveisUseCase;
         }
+        #endregion
 
-        [HttpPost("CadastrarHorario/")]
+        #region Actions
+
+        /// <summary>
+        /// Endpoint responsável por cadastrar um horário para o médico
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     POST /Agenda/CadastrarHorario
+        ///     {
+        ///       "idMedico": 0,
+        ///       "dataConsulta": "2025-02-07T19:06:34.777Z",
+        ///       "horarioInicio": "string",
+        ///       "horarioFim": "string"
+        ///     }
+        /// </remarks>
+        /// <param name="cadAgendaDTO">Objeto com as informações necessárias para cadastrar um horário na agenda.</param>
+        /// <returns></returns>
+        [HttpPost("CadastrarHorario")]
         [Consumes("application/json")]
         [ProducesResponseType(typeof(RetornoHorarioCadastrado), 201)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
@@ -49,19 +71,40 @@ namespace AgendaAPI.Controllers
         }
 
         /// <summary>
-        /// Action responsável por listar os agendamentos do médico, confirmados e disponíveis
+        /// Endpoint responsável por listar os agendamentos do médico, confirmados e disponíveis.
         /// </summary>
-        /// <param name="medicoDTO"></param>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     GET /Agenda/Horarios?idMedico=1
+        /// </remarks>
+        /// <param name="idMedico">Identificador do médico.</param>
         /// <returns></returns>
         [HttpGet("Horarios/")]
         [AuthorizeMedico]
-        public async Task<IActionResult> ListarAgendaMedico(int idMedico)
+        public async Task<IActionResult> ListarAgendaMedico([FromQuery] int idMedico)
         {
             List<RetornoHorarioCadastrado> agendaMedico = await _listarAgendaMedicoUseCase.ObterHorariosAsync(idMedico);
             return Ok(agendaMedico);
         }
 
-        [HttpPut("AlterarHorario/")]
+        /// <summary>
+        /// Endpoint responsável por alterar os dados de um horário cadastrado pelo médico.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     PUT /Agenda/AlterarHorario
+        ///     {
+        ///         "idMedico": 0,
+        ///         "dataConsulta": "2025-02-07T19:26:57.247Z",
+        ///         "horarioInicio": "string",
+        ///         "horarioFim": "string"
+        ///     }
+        /// </remarks>
+        /// <param name="agendaDTO">Objeto com as informações para alteração do horário.</param>
+        /// <returns></returns>
+        [HttpPut("AlterarHorario")]
         [Consumes("application/json")]
         [ProducesResponseType(typeof(RetornoHorarioCadastrado), 200)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
@@ -77,6 +120,16 @@ namespace AgendaAPI.Controllers
             return Ok(horarioAlterado);
         }
 
+        /// <summary>
+        /// Endpoint responsável por listar os horários pendentes ou agendados de um médico.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     GET /Agenda/HorariosPendentesOuAgendados?idMedico=1
+        /// </remarks>
+        /// <param name="idMedico">Identificador do médico.</param>
+        /// <returns></returns>
         [HttpGet("HorariosPendentesOuAgendados")]
         [AuthorizeMedico]
         public async Task<IActionResult> ObterHorariosPendentesOuAgendados([FromQuery] int idMedico)
@@ -85,17 +138,45 @@ namespace AgendaAPI.Controllers
             return Ok(horarios);
         }
 
+
+
+        /// <summary>
+        /// Endpoint responsável por alterar o status de um agendamento.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        ///    PUT /Agenda/AlterarStatusAgendamento
+        ///    {
+        ///       "idAgendamento": 123,
+        ///       "novoStatus": "Agendado",
+        ///       "observacoes": "Observação de teste"
+        ///    }
+        /// </remarks>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPut("AlterarStatusAgendamento")]
+        [Consumes("application/json")]
         [AuthorizeMedico]
-        public async Task<IActionResult> AlterarStatusAgendamento([FromQuery] int idAgendamento, [FromQuery] Disponibilidade novoStatus, [FromQuery] string observacoes = "")
+        public async Task<IActionResult> AlterarStatusAgendamento([FromBody] AlterarStatusAgendamentoDTO dto)
         {
-            bool sucesso = await _alterarStatusAgendamentoUseCase.ExecuteAsync(idAgendamento, novoStatus, observacoes);
+            bool sucesso = await _alterarStatusAgendamentoUseCase.ExecuteAsync(dto.IdAgendamento, dto.NovoStatus, dto.Observacoes);
             if (!sucesso)
                 return NotFound("Agendamento ou horário não encontrado.");
 
             return Ok("Status atualizado com sucesso.");
         }
 
+
+        /// <summary>
+        /// Endpoint responsável por listar todos os horários disponíveis para um médico.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     GET /Agenda/HorariosDisponiveis?idMedico=1
+        /// </remarks>
+        /// <param name="idMedico">Identificador do médico.</param>
+        /// <returns></returns>
         [HttpGet("HorariosDisponiveis")]
         [AuthorizeMedico]
         public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
@@ -106,6 +187,6 @@ namespace AgendaAPI.Controllers
 
             return Ok(horarios);
         }
-
+        #endregion
     }
 }

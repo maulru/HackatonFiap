@@ -12,25 +12,39 @@ namespace AgendaAPI.Controllers
     [Authorize]
     public class ConsultaController : ControllerBase
     {
-
+        #region Propriedades
         private readonly ListarMedicoUseCase _listarMedicoUseCase;
         private readonly ListarHorariosMedicoUseCase _listarHorariosMedicoUseCase;
         private readonly CadastrarAgendamentoUseCase _cadastrarAgendamentoUseCase;
         private readonly CancelarAgendamentoUseCase _cancelarAgendamentoUseCase;
-      
+        #endregion
 
-        public ConsultaController(ListarMedicoUseCase listarMedicoUseCase,
+        #region Construtores
+        public ConsultaController(
+            ListarMedicoUseCase listarMedicoUseCase,
             ListarHorariosMedicoUseCase listarHorariosMedicoUseCase,
             CadastrarAgendamentoUseCase cadastrarAgendamentoUseCase,
-            CancelarAgendamentoUseCase cancelarAgendamentoUseCase) 
+            CancelarAgendamentoUseCase cancelarAgendamentoUseCase)
         {
             _listarMedicoUseCase = listarMedicoUseCase;
             _listarHorariosMedicoUseCase = listarHorariosMedicoUseCase;
             _cadastrarAgendamentoUseCase = cadastrarAgendamentoUseCase;
             _cancelarAgendamentoUseCase = cancelarAgendamentoUseCase;
         }
+        #endregion
 
+        #region Actions
 
+        /// <summary>
+        /// Endpoint responsável por listar os horários disponíveis para o médico informado.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     GET /Consulta/HorariosDisponiveis?idMedico=1
+        /// </remarks>
+        /// <param name="idMedico">Identificador do médico.</param>
+        /// <returns>Lista de horários disponíveis para o médico.</returns>
         [HttpGet("HorariosDisponiveis")]
         [AuthorizePaciente]
         public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
@@ -42,8 +56,25 @@ namespace AgendaAPI.Controllers
             return Ok(horarios);
         }
 
+        /// <summary>
+        /// Endpoint responsável por realizar o cadastro de um agendamento.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     POST /Consulta/CadastrarAgendamento
+        ///     {
+        ///         "idMedico": 1,
+        ///         "idHorario": 5,
+        ///         "idPaciente": 10,
+        ///         "dataAgendamento": "2025-02-07T14:30:00Z"
+        ///     }
+        /// </remarks>
+        /// <param name="agendamentoDTO">Objeto com as informações para o cadastro do agendamento.</param>
+        /// <returns>Dados do agendamento cadastrado.</returns>
         [HttpPost("CadastrarAgendamento")]
         [AuthorizePaciente]
+        [Consumes("application/json")]
         public async Task<IActionResult> CadastrarAgendamento([FromBody] CadAgendamentoDTO agendamentoDTO)
         {
             var agendamento = await _cadastrarAgendamentoUseCase.ExecuteAsync(agendamentoDTO);
@@ -53,14 +84,31 @@ namespace AgendaAPI.Controllers
             return CreatedAtAction(nameof(CadastrarAgendamento), new { id = agendamento.Id }, agendamento);
         }
 
+        /// <summary>
+        /// Endpoint responsável por realizar o cancelamento de um agendamento.
+        /// </summary>
+        /// <remarks>
+        /// **Exemplo de requisição:**
+        /// 
+        ///     PUT /Consulta/CancelarAgendamento
+        ///     {
+        ///         "idAgendamento": 123,
+        ///         "justificativa": "Não poderei comparecer ao compromisso."
+        ///     }
+        /// </remarks>
+        /// <param name="cancelarAgendamentoDTO">
+        /// Objeto contendo o identificador do agendamento e a justificativa para o cancelamento.
+        /// </param>
+        /// <returns>Mensagem indicando o sucesso ou erro do cancelamento.</returns>
         [HttpPut("CancelarAgendamento")]
         [AuthorizePaciente]
-        public async Task<IActionResult> CancelarAgendamento([FromQuery] int idAgendamento, [FromQuery] string justificativa)
+        [Consumes("application/json")]
+        public async Task<IActionResult> CancelarAgendamento([FromBody] CancelarAgendamentoDTO cancelarAgendamentoDTO)
         {
-            if (string.IsNullOrWhiteSpace(justificativa))
+            if (string.IsNullOrWhiteSpace(cancelarAgendamentoDTO.Justificativa))
                 return BadRequest("A justificativa para o cancelamento é obrigatória.");
 
-            bool sucesso = await _cancelarAgendamentoUseCase.ExecuteAsync(idAgendamento, justificativa);
+            bool sucesso = await _cancelarAgendamentoUseCase.ExecuteAsync(cancelarAgendamentoDTO.IdAgendamento, cancelarAgendamentoDTO.Justificativa);
 
             if (!sucesso)
                 return NotFound("Agendamento não encontrado ou já cancelado.");
@@ -68,5 +116,6 @@ namespace AgendaAPI.Controllers
             return Ok("Agendamento cancelado com sucesso.");
         }
 
+        #endregion
     }
 }

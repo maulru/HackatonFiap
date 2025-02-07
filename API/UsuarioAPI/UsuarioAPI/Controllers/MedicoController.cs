@@ -13,16 +13,21 @@ namespace UsuarioAPI.Controllers
     [Authorize]
     public class MedicoController : ControllerBase
     {
+        #region Propriedades
         private readonly CadastrarMedicoUseCase _cadastrarMedicoUseCase;
         private readonly ObterMedicosDisponiveisUseCase _obterMedicosDisponiveisUseCase;
+        #endregion
 
+        #region Construtores
         public MedicoController(CadastrarMedicoUseCase cadastrarMedicoUseCase, 
             ObterMedicosDisponiveisUseCase obterMedicosDisponiveisUseCase)
         {
             _cadastrarMedicoUseCase = cadastrarMedicoUseCase;
             _obterMedicosDisponiveisUseCase = obterMedicosDisponiveisUseCase;
         }
+        #endregion
 
+        #region Actions
         /// <summary>
         /// Endpoint responsável por realizar o cadastro de um Médico.
         /// </summary>
@@ -78,5 +83,6 @@ namespace UsuarioAPI.Controllers
         {
             return Ok(await _obterMedicosDisponiveisUseCase.Executar(especialidades));
         }
+        #endregion
     }
 }
