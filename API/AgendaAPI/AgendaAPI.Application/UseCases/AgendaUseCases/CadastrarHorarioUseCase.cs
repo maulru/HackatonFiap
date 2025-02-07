@@ -1,4 +1,5 @@
 ﻿using AgendaAPI.Application.DTOs.Agenda;
+using AgendaAPI.Application.DTOs.Horario;
 using AgendaAPI.Application.Services;
 using AgendaAPI.Domain.Entities.Agenda;
 using AgendaAPI.Domain.Enums.Agenda;

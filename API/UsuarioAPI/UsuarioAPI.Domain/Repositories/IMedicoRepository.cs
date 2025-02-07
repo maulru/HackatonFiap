@@ -31,5 +31,12 @@ namespace UsuarioAPI.Domain.Repositories
         /// </summary>
         /// <returns></returns>
         Task<List<Medico>> ObterMedicosDisponiveis();
+
+        /// <summary>
+        /// Contrato responsável por localizar um usuário pelo CRM
+        /// </summary>
+        /// <param name="crm"></param>
+        /// <returns></returns>
+        Task<Medico> GetByCRMAsync(string crm);
     }
 }

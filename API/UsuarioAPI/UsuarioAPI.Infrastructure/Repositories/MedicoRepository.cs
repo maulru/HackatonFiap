@@ -45,5 +45,12 @@ namespace UsuarioAPI.Infrastructure.Repositories
         {
             return await _dbSet.AnyAsync(e => e.NumeroCRM == numeroCRM);
         }
+
+        public async Task<Medico> GetByCRMAsync(string crm)
+        {
+            return await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.NumeroCRM == crm);
+        }
     }
 }

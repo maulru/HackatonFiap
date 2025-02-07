@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgendaAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250206003415_MigrationInicial")]
-    partial class MigrationInicial
+    [Migration("20250206204627_AdicionadaEstruturaAgendamento")]
+    partial class AdicionadaEstruturaAgendamento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace AgendaAPI.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AgendaAPI.Domain.Entities.Agenda.Agendamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataAgendamento")
+                        .HasColumnType("smalldatetime");
+
+                    b.Property<int>("IdHorario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPaciente")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdHorario");
+
+                    b.ToTable("Agendamento", (string)null);
+                });
 
             modelBuilder.Entity("AgendaAPI.Domain.Entities.Agenda.Horario", b =>
                 {
@@ -48,46 +78,23 @@ namespace AgendaAPI.Infrastructure.Migrations
                     b.Property<int>("IdMedico")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<double>("ValorConsulta")
+                        .HasColumnType("float");
 
-                    b.HasIndex("IdMedico");
+                    b.HasKey("Id");
 
                     b.ToTable("Horario", (string)null);
                 });
 
-            modelBuilder.Entity("AgendaAPI.Domain.Entities.Medico", b =>
+            modelBuilder.Entity("AgendaAPI.Domain.Entities.Agenda.Agendamento", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Especialidade")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroCRM")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Medico");
-                });
-
-            modelBuilder.Entity("AgendaAPI.Domain.Entities.Agenda.Horario", b =>
-                {
-                    b.HasOne("AgendaAPI.Domain.Entities.Medico", "Medico")
+                    b.HasOne("AgendaAPI.Domain.Entities.Agenda.Horario", "Horario")
                         .WithMany()
-                        .HasForeignKey("IdMedico")
+                        .HasForeignKey("IdHorario")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Medico");
+                    b.Navigation("Horario");
                 });
 #pragma warning restore 612, 618
         }

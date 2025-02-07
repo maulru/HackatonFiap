@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AgendaAPI.Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Application.DTOs.Medico;
 using UsuarioAPI.Application.UseCases.MedicoUseCases;
@@ -8,6 +10,7 @@ namespace UsuarioAPI.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
+    [Authorize]
     public class MedicoController : ControllerBase
     {
         private readonly CadastrarMedicoUseCase _cadastrarMedicoUseCase;
@@ -70,6 +73,7 @@ namespace UsuarioAPI.Controllers
         [Produces("application/json")]
         [ProducesResponseType(typeof(RetornoMedicoDisponivelDTO), 200)]
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
+        [AuthorizePaciente]
         public async Task<IActionResult> ObterMedicosDisponiveis([FromQuery] List<Especialidades>? especialidades)
         {
             return Ok(await _obterMedicosDisponiveisUseCase.Executar(especialidades));
