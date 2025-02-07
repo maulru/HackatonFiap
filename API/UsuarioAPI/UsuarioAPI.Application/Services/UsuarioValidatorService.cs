@@ -29,7 +29,9 @@ namespace UsuarioAPI.Application.Services
             {
                 { "E-mail", string.IsNullOrWhiteSpace(usuario.Email) },
                 { "Senha", string.IsNullOrWhiteSpace(usuario.Senha) },
-                { "Nome", string.IsNullOrWhiteSpace(usuario.Nome) }
+                { "Nome", string.IsNullOrWhiteSpace(usuario.Nome) },
+                { "CPF", string.IsNullOrWhiteSpace(usuario.CPF) }
+
             };
 
             foreach (var campo in camposObrigatorios)

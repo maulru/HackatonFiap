@@ -7,7 +7,6 @@ using UsuarioAPI.Domain.Entities.Medico;
 using UsuarioAPI.Domain.Enums;
 using UsuarioAPI.Domain.Exceptions;
 using UsuarioAPI.Domain.Repositories;
-using UsuarioAPI.Domain.Services;
 
 namespace UsuarioAPI.Application.UseCases.MedicoUseCases
 {

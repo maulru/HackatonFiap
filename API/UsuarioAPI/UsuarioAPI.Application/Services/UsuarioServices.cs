@@ -36,15 +36,12 @@ namespace UsuarioAPI.Application.Services
             if (listaErros.Any())
                 throw new UserBaseExceptions(listaErros);
 
-            //usuario.Senha = _securityRepository.CriptografarSenha(usuario.Senha);
-
             IdentityResult resultado = await _usuarioRepository.CadastraAsync(usuario);
             return _mapper.Map<RetornoUsuarioCadastrado>(usuario);
         }
 
         public async Task<string> Login(LoginDto dto)
         {
-            //var password = _securityRepository.CriptografarSenha(dto.Password);
             var resultado = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, false, false);
 
 
