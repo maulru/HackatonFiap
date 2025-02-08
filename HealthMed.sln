@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Domain", "API\Us
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Infrastructure", "API\UsuarioAPI\UsuarioAPI.Infrastructure\UsuarioAPI.Infrastructure.csproj", "{937212FB-160F-4B5A-80A6-E6D187382FCF}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "API\UsuarioAPI\docker-compose.dcproj", "{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsuarioAPI.Tests", "API\UsuarioAPI\UsuarioAPI.Tests\UsuarioAPI.Tests.csproj", "{86EFAF0D-1A15-4677-8237-D74CFE0758FB}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,14 +61,14 @@ Global
 		{937212FB-160F-4B5A-80A6-E6D187382FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{937212FB-160F-4B5A-80A6-E6D187382FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{937212FB-160F-4B5A-80A6-E6D187382FCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86EFAF0D-1A15-4677-8237-D74CFE0758FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86EFAF0D-1A15-4677-8237-D74CFE0758FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86EFAF0D-1A15-4677-8237-D74CFE0758FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86EFAF0D-1A15-4677-8237-D74CFE0758FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5074FB-355B-4DF4-BFAE-8DA063DDC594}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
