@@ -75,14 +75,7 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    if (File.Exists(xmlPath))
-    {
-        var xmlBytes = File.ReadAllBytes(xmlPath);
-        var xmlContent = Encoding.UTF8.GetString(xmlBytes);
-        File.WriteAllText(xmlPath, xmlContent, Encoding.UTF8);
-        c.IncludeXmlComments(xmlPath);
-    }
-
+    c.IncludeXmlComments(xmlPath);
     c.UseInlineDefinitionsForEnums();
 });
 
