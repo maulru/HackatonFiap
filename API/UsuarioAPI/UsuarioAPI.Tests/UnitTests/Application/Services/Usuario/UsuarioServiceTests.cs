@@ -25,6 +25,7 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
         private readonly TokenService _tokenService;
         private readonly Mock<IUsuarioRepository> _usuarioRepositoryMock;
         private readonly Mock<IMedicoRepository> _medicoRepository;
+        private readonly Mock<IPacienteRepository> _pacienteRepository;
         private readonly Mock<IUsuarioValidatorService> _usuarioValidatorMock;
         private readonly IMapper _mapper;
 
@@ -33,6 +34,7 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
             _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
             _usuarioValidatorMock = new Mock<IUsuarioValidatorService>();
             _medicoRepository = new Mock<IMedicoRepository>();
+            _pacienteRepository = new Mock<IPacienteRepository>();
 
             var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             _mapper = config.CreateMapper();
@@ -48,7 +50,8 @@ namespace UsuarioAPI.Tests.UnitTests.Application.Services.Usuario
                 _signInManager,
                 _tokenService,
                 _userManager,
-                _medicoRepository.Object
+                _medicoRepository.Object,
+                _pacienteRepository.Object
             );
         }
 
