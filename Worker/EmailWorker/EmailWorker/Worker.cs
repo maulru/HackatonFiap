@@ -33,13 +33,16 @@ public class Worker : BackgroundService
         {
             HostName = _configuration["RabbitMQ:HostName"] ?? "rabbitmq",
             UserName = _configuration["RabbitMQ:UserName"] ?? "guest",
-            Password = _configuration["RabbitMQ:Password"] ?? "guest"
+            Password = _configuration["RabbitMQ:Password"] ?? "guest",
+            Port = 5672
         };
+
+        Console.WriteLine(factory);
 
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
 
-        // Declara a fila, se ainda não existir
+        // Declara a fila, se ainda nï¿½o existir
         _channel.QueueDeclare(queue: _queueName,
                               durable: true,
                               exclusive: false,
@@ -63,7 +66,7 @@ public class Worker : BackgroundService
 
                 if (emailItem != null)
                 {
-                    // Se o campo de email estiver vazio, resolva a partir do repositório de médicos
+                    // Se o campo de email estiver vazio, resolva a partir do repositï¿½rio de mï¿½dicos
                     if (string.IsNullOrEmpty(emailItem.EmailDestino))
                     {
                         emailItem.EmailDestino = await _medicoRepository.GetEmailByMedicoIdAsync(emailItem.IdMedico);
@@ -98,7 +101,7 @@ public class Worker : BackgroundService
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("Suporte MyMedHealth", "myhealthmed.suporte@outlook.com"));
         message.To.Add(new MailboxAddress("", emailDestino));
-        message.Subject = "Confirmação de Agendamento de Consulta";
+        message.Subject = "Confirmaï¿½ï¿½o de Agendamento de Consulta";
 
         message.Body = new TextPart("plain")
         {
@@ -107,7 +110,7 @@ public class Worker : BackgroundService
 
         using var client = new SmtpClient();
 
-        // Obtém o token de acesso via OAuth 2.0
+        // Obtï¿½m o token de acesso via OAuth 2.0
         string accessToken = await OAuthHelper.GetAccessTokenAsync();
         Console.WriteLine($" Token OAuth usado no SMTP: {accessToken}");
 
@@ -134,7 +137,7 @@ public class Worker : BackgroundService
         {
             message = new
             {
-                subject = "Confirmação de Agendamento de Consulta",
+                subject = "Confirmaï¿½ï¿½o de Agendamento de Consulta",
                 body = new
                 {
                     contentType = "Text",
