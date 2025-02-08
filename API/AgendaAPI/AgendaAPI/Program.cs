@@ -139,13 +139,11 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    // Verifica se o banco já existe antes de rodar migrations
-    if (!dbContext.Database.CanConnect())
+    try
     {
-        dbContext.Database.EnsureCreated(); // Cria o banco se não existir
+        dbContext.Database.Migrate();
     }
-
-    dbContext.Database.Migrate(); // Aplica as migrations
+    finally { }
 }
 
 app.MapScalarApiReference();

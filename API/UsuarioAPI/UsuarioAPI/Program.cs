@@ -152,11 +152,11 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    // Verifica se o banco já existe antes de rodar migrations
-    if (!dbContext.Database.CanConnect())
+    try
     {
-        dbContext.Database.EnsureCreated(); // Cria o banco se não existir
+        dbContext.Database.Migrate();
     }
+    finally { }
 
     dbContext.Database.Migrate(); // Aplica as migrations
 }
