@@ -51,9 +51,10 @@ namespace AgendaAPI.Controllers
         /// 
         ///     POST /Agenda/CadastrarHorario
         ///     {
-        ///       "dataConsulta": "2025-02-07T19:06:34.777Z",
+        ///       "dataConsulta": "2025-02-07T19:06:34.000Z",
         ///       "horarioInicio": "string",
-        ///       "horarioFim": "string"
+        ///       "horarioFim": "string",
+        ///       "valorConsulta": "100"
         ///     }
         /// </remarks>
         /// <param name="cadAgendaDTO">Objeto com as informações necessárias para cadastrar um horário na agenda.</param>
