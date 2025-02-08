@@ -30,6 +30,7 @@ namespace UsuarioAPI.Middlewares
         {
             HttpStatusCode status;
             RetornoErroDTO retornoErroDTO = new RetornoErroDTO();
+            List<string> listaErros = new List<string>();
 
             switch (ex)
             {
@@ -38,6 +39,14 @@ namespace UsuarioAPI.Middlewares
                     retornoErroDTO.mensagem = "Ocorreu um erro";
                     retornoErroDTO.status = (int)status;
                     retornoErroDTO.erros = e.Erros;
+                    break;
+
+                case ApplicationException e:
+                    status = HttpStatusCode.BadRequest;
+                    listaErros.Add(e.Message);
+                    retornoErroDTO.mensagem = "Ocorreu um erro";
+                    retornoErroDTO.status = (int)status;
+                    retornoErroDTO.erros = listaErros;
                     break;
 
                 default:
