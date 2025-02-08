@@ -1,24 +1,28 @@
-# Imagem base com ASP.NET Core (contém o Microsoft.AspNetCore.App)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+USER app
 WORKDIR /app
 
-# Fase de build usando o SDK do .NET 8
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-# Ajuste o caminho do projeto conforme sua estrutura. Aqui, supondo que o projeto se chame AgendaAPI.Worker
-COPY ["AgendaAPI.Worker/AgendaAPI.Worker.csproj", "AgendaAPI.Worker/"]
-RUN dotnet restore "./AgendaAPI.Worker/AgendaAPI.Worker.csproj"
+COPY ["Worker/EmailWorker/EmailWorker/AgendaAPI.Worker.csproj", "Worker/EmailWorker/EmailWorker/"]
+COPY ["API/AgendaAPI/AgendaAPI.Infrastructure/AgendaAPI.Infrastructure.csproj", "API/AgendaAPI/AgendaAPI.Infrastructure/"]
+COPY ["API/AgendaAPI/AgendaAPI.Application/AgendaAPI.Application.csproj", "API/AgendaAPI/AgendaAPI.Application/"]
+COPY ["API/AgendaAPI/AgendaAPI.Domain/AgendaAPI.Domain.csproj", "API/AgendaAPI/AgendaAPI.Domain/"]
+COPY ["API/UsuarioAPI/UsuarioAPI.Domain/UsuarioAPI.Domain.csproj", "API/UsuarioAPI/UsuarioAPI.Domain/"]
+COPY ["API/UsuarioAPI/UsuarioAPI.Infrastructure/UsuarioAPI.Infrastructure.csproj", "API/UsuarioAPI/UsuarioAPI.Infrastructure/"]
+COPY ["API/UsuarioAPI/UsuarioAPI.Application/UsuarioAPI.Application.csproj", "API/UsuarioAPI/UsuarioAPI.Application/"]
+RUN dotnet restore "./Worker/EmailWorker/EmailWorker/AgendaAPI.Worker.csproj"
 COPY . .
-WORKDIR "/src/AgendaAPI.Worker"
+WORKDIR "/src/Worker/EmailWorker/EmailWorker"
 RUN dotnet build "./AgendaAPI.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Fase de publicação
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./AgendaAPI.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Imagem final baseada no ASP.NET Core runtime
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
