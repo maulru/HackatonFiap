@@ -36,7 +36,8 @@ namespace AgendaAPI.Application.Services
 
         public async Task<bool> CancelarAgendamentoAsync(CancelarAgendamentoDTO cancelarAgendamentoDTO)
         {
-            return await _consultaRepository.CancelarAgendamentoAsync(cancelarAgendamentoDTO);
+            Agendamento agendamento = _mapper.Map<Agendamento>(cancelarAgendamentoDTO);
+            return await _consultaRepository.CancelarAgendamentoAsync(agendamento);
         }
 
     }

@@ -42,9 +42,9 @@ namespace AgendaAPI.Infrastructure.Repositories
             return agendamento;
         }
 
-        public async Task<bool> CancelarAgendamentoAsync(CancelarAgendamentoDTO cancelarAgendamentoDTOa)
+        public async Task<bool> CancelarAgendamentoAsync(Agendamento agendamentoCancelar)
         {
-            var agendamento = await _agendamentoDbSet.FindAsync(cancelarAgendamentoDTOa.IdAgendamento);
+            var agendamento = await _agendamentoDbSet.FindAsync(agendamentoCancelar.Id);
             if (agendamento == null || agendamento.Situacao == Disponibilidade.Cancelada)
                 return false; // O agendamento já foi cancelado ou não existe
 
@@ -52,12 +52,12 @@ namespace AgendaAPI.Infrastructure.Repositories
             if (horario == null)
                 return false;
 
-            if(agendamento.IdPaciente != cancelarAgendamentoDTOa.IdPaciente)
+            if(agendamento.IdPaciente != agendamentoCancelar.IdPaciente)
                 throw new UnauthorizedAccessException("Agendamento não vinculado ao paciente autenticado.");
 
             // Atualiza o status do agendamento para Cancelado
             agendamento.Situacao = Disponibilidade.Cancelada;
-            agendamento.Observacoes = cancelarAgendamentoDTOa.Justificativa;
+            agendamento.Observacoes = agendamentoCancelar.Observacoes;
 
             // Atualiza o status do horário para Disponível
             horario.Disponibilidade = Disponibilidade.Disponivel;

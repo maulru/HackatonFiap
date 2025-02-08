@@ -8,6 +8,6 @@ namespace AgendaAPI.Domain.Repositories
 
         Task<Agendamento> CadastrarAgendamentoAsync(Agendamento agendamento);
 
-        Task<bool> CancelarAgendamentoAsync(int idAgendamento, string justificativa);
+        Task<bool> CancelarAgendamentoAsync(Agendamento agendamento);
     }
 }
