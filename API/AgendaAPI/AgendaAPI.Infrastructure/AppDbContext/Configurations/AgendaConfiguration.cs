@@ -16,6 +16,7 @@ namespace AgendaAPI.Infrastructure.AppDbContext.Configurations
             builder.Property(p => p.HorarioInicio).HasColumnType("time(0)");
             builder.Property(p => p.HorarioFim).HasColumnType("time(0)");
             builder.Property(p => p.Disponibilidade).HasColumnType("int");
+            builder.Property(p => p.ValorConsulta).HasColumnType("float");
 
         }
     }

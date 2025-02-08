@@ -17,5 +17,9 @@ namespace AgendaAPI.Application.DTOs.Agenda
         /// Horario final para a consulta
         /// </summary>
         public TimeSpan HorarioFim { get; set; }
+        /// <summary>
+        /// Valor da consulta
+        /// </summary>
+        public double ValorConsulta { get; set; }
     }
 }

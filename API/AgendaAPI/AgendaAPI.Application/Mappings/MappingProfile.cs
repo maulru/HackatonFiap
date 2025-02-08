@@ -16,7 +16,7 @@ namespace AgendaAPI.Application.Mappings
             CreateMap<Horario, RetornoHorarioCadastrado>();
             CreateMap<CadAgendamentoDTO, Agendamento>()
            .ForMember(dest => dest.Id, opt => opt.Ignore()) 
-           .ForMember(dest => dest.DataAgendamento, opt => opt.MapFrom(src => DateTime.UtcNow)) 
+           .ForMember(dest => dest.DataAgendamento, opt => opt.MapFrom(src => DateTime.Now)) 
            .ForMember(dest => dest.Situacao, opt => opt.MapFrom(src => Disponibilidade.Pendente)) 
            .ForMember(dest => dest.Observacoes, opt => opt.Ignore()) 
            .ForMember(dest => dest.Horario, opt => opt.Ignore());
