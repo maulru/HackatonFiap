@@ -1,4 +1,5 @@
-﻿using AgendaAPI.Application.Services;
+﻿using AgendaAPI.Application.DTOs.Agenda;
+using AgendaAPI.Application.Services;
 
 namespace AgendaAPI.Application.UseCases.AgendaUseCases
 {
@@ -11,9 +12,9 @@ namespace AgendaAPI.Application.UseCases.AgendaUseCases
             _consultaService = consultaService;
         }
 
-        public async Task<bool> ExecuteAsync(int idAgendamento, string justificativa)
+        public async Task<bool> ExecuteAsync(CancelarAgendamentoDTO cancelarAgendamentoDTO)
         {
-            return await _consultaService.CancelarAgendamentoAsync(idAgendamento, justificativa);
+            return await _consultaService.CancelarAgendamentoAsync(cancelarAgendamentoDTO);
         }
     }
 }

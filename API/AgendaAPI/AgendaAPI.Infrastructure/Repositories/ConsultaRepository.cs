@@ -1,4 +1,5 @@
-﻿using AgendaAPI.Domain.Entities.Agenda;
+﻿using AgendaAPI.Application.DTOs.Agenda;
+using AgendaAPI.Domain.Entities.Agenda;
 using AgendaAPI.Domain.Enums.Agenda;
 using AgendaAPI.Domain.Repositories;
 using AgendaAPI.Infrastructure.AppDbContext;
@@ -41,9 +42,9 @@ namespace AgendaAPI.Infrastructure.Repositories
             return agendamento;
         }
 
-        public async Task<bool> CancelarAgendamentoAsync(int idAgendamento, string justificativa)
+        public async Task<bool> CancelarAgendamentoAsync(CancelarAgendamentoDTO cancelarAgendamentoDTOa)
         {
-            var agendamento = await _agendamentoDbSet.FindAsync(idAgendamento);
+            var agendamento = await _agendamentoDbSet.FindAsync(cancelarAgendamentoDTOa.IdAgendamento);
             if (agendamento == null || agendamento.Situacao == Disponibilidade.Cancelada)
                 return false; // O agendamento já foi cancelado ou não existe
 
@@ -51,9 +52,12 @@ namespace AgendaAPI.Infrastructure.Repositories
             if (horario == null)
                 return false;
 
+            if(agendamento.IdPaciente != cancelarAgendamentoDTOa.IdPaciente)
+                throw new UnauthorizedAccessException("Agendamento não vinculado ao paciente autenticado.");
+
             // Atualiza o status do agendamento para Cancelado
             agendamento.Situacao = Disponibilidade.Cancelada;
-            agendamento.Observacoes = justificativa;
+            agendamento.Observacoes = cancelarAgendamentoDTOa.Justificativa;
 
             // Atualiza o status do horário para Disponível
             horario.Disponibilidade = Disponibilidade.Disponivel;

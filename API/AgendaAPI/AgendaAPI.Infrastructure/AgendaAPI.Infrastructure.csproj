@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AgendaAPI.Application\AgendaAPI.Application.csproj" />
     <ProjectReference Include="..\AgendaAPI.Domain\AgendaAPI.Domain.csproj" />
   </ItemGroup>
 

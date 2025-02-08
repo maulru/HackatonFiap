@@ -127,7 +127,7 @@ namespace AgendaAPI.Controllers
             if (string.IsNullOrWhiteSpace(cancelarAgendamentoDTO.Justificativa))
                 return BadRequest("A justificativa para o cancelamento é obrigatória.");
 
-            bool sucesso = await _cancelarAgendamentoUseCase.ExecuteAsync(cancelarAgendamentoDTO.IdAgendamento, cancelarAgendamentoDTO.Justificativa);
+            bool sucesso = await _cancelarAgendamentoUseCase.ExecuteAsync(cancelarAgendamentoDTO);
 
             if (!sucesso)
                 return NotFound("Agendamento não encontrado ou já cancelado.");

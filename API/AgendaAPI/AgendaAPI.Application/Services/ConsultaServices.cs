@@ -34,9 +34,9 @@ namespace AgendaAPI.Application.Services
                 : null;
         }
 
-        public async Task<bool> CancelarAgendamentoAsync(int idAgendamento, string justificativa)
+        public async Task<bool> CancelarAgendamentoAsync(CancelarAgendamentoDTO cancelarAgendamentoDTO)
         {
-            return await _consultaRepository.CancelarAgendamentoAsync(idAgendamento, justificativa);
+            return await _consultaRepository.CancelarAgendamentoAsync(cancelarAgendamentoDTO);
         }
 
     }

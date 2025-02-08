@@ -39,6 +39,10 @@ namespace AgendaAPI.Infrastructure.Repositories
             if (horarioExistente == null)
                 return null;
 
+            if (horarioExistente.IdMedico != horario.IdMedico)
+                throw new UnauthorizedAccessException("Horário não vinculado ao médico autenticado.");
+
+
             _context.Entry(horarioExistente).CurrentValues.SetValues(horario);
             await _context.SaveChangesAsync();
             return horarioExistente;
@@ -67,7 +71,7 @@ namespace AgendaAPI.Infrastructure.Repositories
             agendamento.Observacoes = observacoes;
 
             // Atualiza status do horário de acordo com a mudança no agendamento
-            horario.Disponibilidade = novoStatus == Disponibilidade.Cancelada ? Disponibilidade.Disponivel : Disponibilidade.Indisponivel;
+            horario.Disponibilidade = novoStatus == Disponibilidade.Cancelada ? Disponibilidade.Disponivel : novoStatus;
 
             await _context.SaveChangesAsync();
             return true;
