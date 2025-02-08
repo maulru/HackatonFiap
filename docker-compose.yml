@@ -40,9 +40,7 @@ services:
       - ASPNETCORE_URLS=http://+:5002
 
   emailworker:
-    build:
-      context: .
-      dockerfile: ./Worker/EmailWorker/EmailWorker/Dockerfile
+    image: trickfx/emailworker:latest
     container_name: emailworker
     depends_on:
       - sqlserver
