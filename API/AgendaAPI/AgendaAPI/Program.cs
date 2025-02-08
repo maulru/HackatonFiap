@@ -6,6 +6,7 @@ using AgendaAPI.Domain.Repositories;
 using AgendaAPI.Infrastructure.AppDbContext;
 using AgendaAPI.Infrastructure.Repositories;
 using AspNetCore.Scalar;
+using AgendaAPI.Infrastructure.Services.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -115,6 +116,10 @@ builder.Services.AddScoped<ListarHorariosMedicoUseCase>();
 // Services
 builder.Services.AddScoped<AgendaServices>();
 builder.Services.AddScoped <ConsultaServices>();
+
+//Mail
+builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
+builder.Services.AddSingleton<IEmailQueuePublisher, RabbitMQEmailQueuePublisher>();
 
 // Token
 builder.Services.AddAuthentication(options =>

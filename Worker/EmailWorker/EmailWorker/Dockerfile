@@ -1,28 +1,25 @@
-# Acesse https://aka.ms/customizecontainer para saber como personalizar seu contêiner de depuração e como o Visual Studio usa este Dockerfile para criar suas imagens para uma depuração mais rápida.
-
-# Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
-USER $APP_UID
+# Imagem base com ASP.NET Core (contém o Microsoft.AspNetCore.App)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 
-
-# Esta fase é usada para compilar o projeto de serviço
+# Fase de build usando o SDK do .NET 8
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EmailWorker/EmailWorker.csproj", "EmailWorker/"]
-RUN dotnet restore "./EmailWorker/EmailWorker.csproj"
+# Ajuste o caminho do projeto conforme sua estrutura. Aqui, supondo que o projeto se chame AgendaAPI.Worker
+COPY ["AgendaAPI.Worker/AgendaAPI.Worker.csproj", "AgendaAPI.Worker/"]
+RUN dotnet restore "./AgendaAPI.Worker/AgendaAPI.Worker.csproj"
 COPY . .
-WORKDIR "/src/EmailWorker"
-RUN dotnet build "./EmailWorker.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/AgendaAPI.Worker"
+RUN dotnet build "./AgendaAPI.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
+# Fase de publicação
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./EmailWorker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AgendaAPI.Worker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
+# Imagem final baseada no ASP.NET Core runtime
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EmailWorker.dll"]
+ENTRYPOINT ["dotnet", "AgendaAPI.Worker.dll"]
