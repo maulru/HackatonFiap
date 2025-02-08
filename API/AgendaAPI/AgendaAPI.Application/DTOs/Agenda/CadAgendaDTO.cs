@@ -1,7 +1,11 @@
-﻿namespace AgendaAPI.Application.DTOs.Agenda
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace AgendaAPI.Application.DTOs.Agenda
 {
     public class CadAgendaDTO
     {
+        [BindNever]
+        [SwaggerExclude]
         public int IdMedico {  get; set; }
 
         public DateTime DataConsulta { get; set; }

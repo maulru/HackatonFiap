@@ -1,6 +1,7 @@
 ﻿using AgendaAPI.Application.DTOs.Agenda;
 using AgendaAPI.Application.UseCases.AgendaUseCases;
 using AgendaAPI.Application.UseCases.HorarioUseCases;
+using AgendaAPI.Domain.Entities.Agenda;
 using AgendaAPI.Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,10 +65,7 @@ namespace AgendaAPI.Controllers
         /// 
         ///     POST /Consulta/CadastrarAgendamento
         ///     {
-        ///         "idMedico": 1,
-        ///         "idHorario": 5,
-        ///         "idPaciente": 10,
-        ///         "dataAgendamento": "2025-02-07T14:30:00Z"
+        ///         "idHorario": 5
         ///     }
         /// </remarks>
         /// <param name="agendamentoDTO">Objeto com as informações para o cadastro do agendamento.</param>
@@ -77,6 +75,16 @@ namespace AgendaAPI.Controllers
         [Consumes("application/json")]
         public async Task<IActionResult> CadastrarAgendamento([FromBody] CadAgendamentoDTO agendamentoDTO)
         {
+            if (HttpContext.Items["IdPaciente"] is string idPacienteString &&
+                int.TryParse(idPacienteString, out int idPaciente))
+            {
+                agendamentoDTO.IdPaciente = idPaciente;
+            }
+            else
+            {
+                return Forbid("IdPaciente não encontrado.");
+            }
+
             var agendamento = await _cadastrarAgendamentoUseCase.ExecuteAsync(agendamentoDTO);
             if (agendamento == null)
                 return BadRequest("O horário selecionado não está disponível.");
@@ -105,6 +113,17 @@ namespace AgendaAPI.Controllers
         [Consumes("application/json")]
         public async Task<IActionResult> CancelarAgendamento([FromBody] CancelarAgendamentoDTO cancelarAgendamentoDTO)
         {
+            if (HttpContext.Items["IdPaciente"] is string idPacienteString &&
+                int.TryParse(idPacienteString, out int idPaciente))
+            {
+                cancelarAgendamentoDTO.IdPaciente = idPaciente;
+            }
+            else
+            {
+                return Forbid("IdPaciente não encontrado.");
+            }
+
+
             if (string.IsNullOrWhiteSpace(cancelarAgendamentoDTO.Justificativa))
                 return BadRequest("A justificativa para o cancelamento é obrigatória.");
 

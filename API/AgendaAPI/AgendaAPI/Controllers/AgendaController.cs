@@ -44,14 +44,13 @@ namespace AgendaAPI.Controllers
         #region Actions
 
         /// <summary>
-        /// Endpoint responsável por cadastrar um horário para o médico
+        /// Endpoint responsável por cadastrar um horário para o médico.
         /// </summary>
         /// <remarks>
         /// **Exemplo de requisição:**
         /// 
         ///     POST /Agenda/CadastrarHorario
         ///     {
-        ///       "idMedico": 0,
         ///       "dataConsulta": "2025-02-07T19:06:34.777Z",
         ///       "horarioInicio": "string",
         ///       "horarioFim": "string"
@@ -66,8 +65,19 @@ namespace AgendaAPI.Controllers
         [AuthorizeMedico]
         public async Task<IActionResult> CadastrarHorario([FromBody] CadAgendaDTO cadAgendaDTO)
         {
+            // Extrai o id do médico a partir do token
+            if (HttpContext.Items["IdMedico"] is string idMedicoString &&
+                int.TryParse(idMedicoString, out int idMedico))
+            {
+                cadAgendaDTO.IdMedico = idMedico;
+            }
+            else
+            {
+                return Forbid("IdMedico não encontrado.");
+            }
+
             RetornoHorarioCadastrado horarioCadastrado = await _cadastrarHorarioUseCase.CadastrarHorario(cadAgendaDTO);
-            return CreatedAtAction(nameof(CadastrarHorario), new { id = horarioCadastrado });
+            return CreatedAtAction(nameof(CadastrarHorario), new { id = horarioCadastrado }, horarioCadastrado);
         }
 
         /// <summary>
@@ -76,16 +86,23 @@ namespace AgendaAPI.Controllers
         /// <remarks>
         /// **Exemplo de requisição:**
         /// 
-        ///     GET /Agenda/Horarios?idMedico=1
+        ///     GET /Agenda/Horarios
         /// </remarks>
-        /// <param name="idMedico">Identificador do médico.</param>
         /// <returns></returns>
-        [HttpGet("Horarios/")]
+        [HttpGet("Horarios")]
         [AuthorizeMedico]
-        public async Task<IActionResult> ListarAgendaMedico([FromQuery] int idMedico)
+        public async Task<IActionResult> ListarAgendaMedico()
         {
-            List<RetornoHorarioCadastrado> agendaMedico = await _listarAgendaMedicoUseCase.ObterHorariosAsync(idMedico);
-            return Ok(agendaMedico);
+            if (HttpContext.Items["IdMedico"] is string idMedicoString &&
+                int.TryParse(idMedicoString, out int idMedico))
+            {
+                List<RetornoHorarioCadastrado> agendaMedico = await _listarAgendaMedicoUseCase.ObterHorariosAsync(idMedico);
+                return Ok(agendaMedico);
+            }
+            else
+            {
+                return Forbid("IdMedico não encontrado no token.");
+            }
         }
 
         /// <summary>
@@ -96,7 +113,6 @@ namespace AgendaAPI.Controllers
         /// 
         ///     PUT /Agenda/AlterarHorario
         ///     {
-        ///         "idMedico": 0,
         ///         "dataConsulta": "2025-02-07T19:26:57.247Z",
         ///         "horarioInicio": "string",
         ///         "horarioFim": "string"
@@ -112,6 +128,16 @@ namespace AgendaAPI.Controllers
         [AuthorizeMedico]
         public async Task<IActionResult> AlterarHorario([FromBody] CadAgendaDTO agendaDTO)
         {
+            if (HttpContext.Items["IdMedico"] is string idMedicoString &&
+                int.TryParse(idMedicoString, out int idMedico))
+            {
+                agendaDTO.IdMedico = idMedico;
+            }
+            else
+            {
+                return Forbid("IdMedico não encontrado.");
+            }
+
             var horarioAlterado = await _alterarHorarioUseCase.AlterarHorario(agendaDTO);
 
             if (horarioAlterado == null)
@@ -126,19 +152,24 @@ namespace AgendaAPI.Controllers
         /// <remarks>
         /// **Exemplo de requisição:**
         /// 
-        ///     GET /Agenda/HorariosPendentesOuAgendados?idMedico=1
+        ///     GET /Agenda/HorariosPendentesOuAgendados
         /// </remarks>
-        /// <param name="idMedico">Identificador do médico.</param>
         /// <returns></returns>
         [HttpGet("HorariosPendentesOuAgendados")]
         [AuthorizeMedico]
-        public async Task<IActionResult> ObterHorariosPendentesOuAgendados([FromQuery] int idMedico)
+        public async Task<IActionResult> ObterHorariosPendentesOuAgendados()
         {
-            var horarios = await _obterHorariosPendentesOuAgendadosUseCase.ExecuteAsync(idMedico);
-            return Ok(horarios);
+            if (HttpContext.Items["IdMedico"] is string idMedicoString &&
+                int.TryParse(idMedicoString, out int idMedico))
+            {
+                var horarios = await _obterHorariosPendentesOuAgendadosUseCase.ExecuteAsync(idMedico);
+                return Ok(horarios);
+            }
+            else
+            {
+                return Forbid("IdMedico não encontrado.");
+            }
         }
-
-
 
         /// <summary>
         /// Endpoint responsável por alterar o status de um agendamento.
@@ -166,27 +197,34 @@ namespace AgendaAPI.Controllers
             return Ok("Status atualizado com sucesso.");
         }
 
-
         /// <summary>
         /// Endpoint responsável por listar todos os horários disponíveis para um médico.
         /// </summary>
         /// <remarks>
         /// **Exemplo de requisição:**
         /// 
-        ///     GET /Agenda/HorariosDisponiveis?idMedico=1
+        ///     GET /Agenda/HorariosDisponiveis
         /// </remarks>
-        /// <param name="idMedico">Identificador do médico.</param>
         /// <returns></returns>
         [HttpGet("HorariosDisponiveis")]
         [AuthorizeMedico]
-        public async Task<IActionResult> ObterHorariosDisponiveis([FromQuery] int idMedico)
+        public async Task<IActionResult> ObterHorariosDisponiveis()
         {
-            var horarios = await _obterHorariosDisponiveisUseCase.ExecuteAsync(idMedico);
-            if (horarios == null || horarios.Count == 0)
-                return NotFound("Nenhum horário disponível encontrado para este médico.");
+            if (HttpContext.Items["IdMedico"] is string idMedicoString &&
+                int.TryParse(idMedicoString, out int idMedico))
+            {
+                var horarios = await _obterHorariosDisponiveisUseCase.ExecuteAsync(idMedico);
+                if (horarios == null || horarios.Count == 0)
+                    return NotFound("Nenhum horário disponível encontrado para este médico.");
 
-            return Ok(horarios);
+                return Ok(horarios);
+            }
+            else
+            {
+                return Forbid("IdMedico não encontrado.");
+            }
         }
+
         #endregion
     }
 }

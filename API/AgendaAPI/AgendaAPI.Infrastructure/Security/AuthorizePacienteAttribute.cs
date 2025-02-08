@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
 
 namespace AgendaAPI.Infrastructure.Security
 {
@@ -15,14 +16,21 @@ namespace AgendaAPI.Infrastructure.Security
                 return;
             }
 
-            // Obtém o tipo de usuário do Token
             var userTypeClaim = user.Claims.FirstOrDefault(c => c.Type == "tipo")?.Value;
-
             if (string.IsNullOrEmpty(userTypeClaim) || userTypeClaim != "Paciente")
             {
                 context.Result = new ForbidResult();
                 return;
             }
+
+            var idPacienteClaim = user.Claims.FirstOrDefault(c => c.Type == "IdPaciente")?.Value;
+            if (string.IsNullOrEmpty(idPacienteClaim))
+            {
+                context.Result = new ForbidResult();
+                return;
+            }
+
+            context.HttpContext.Items["IdPaciente"] = idPacienteClaim;
         }
     }
 }

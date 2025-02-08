@@ -1,5 +1,4 @@
 ﻿using AgendaAPI.Infrastructure.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsuarioAPI.Application.DTOs.Base;
 using UsuarioAPI.Application.DTOs.Medico;
@@ -10,7 +9,7 @@ namespace UsuarioAPI.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
-    [Authorize]
+    
     public class MedicoController : ControllerBase
     {
         #region Propriedades

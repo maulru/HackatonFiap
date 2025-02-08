@@ -23,5 +23,14 @@ namespace UsuarioAPI.Infrastructure.Repositories
 
             return paciente;
         }
+
+        public async Task<Paciente> GetByIdUsuarioAsync(string idUsuario)
+        {
+            return await _dbSet
+                .Include(p => p.Usuario)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.IdUsuario == idUsuario);
+        }
+
     }
 }

@@ -13,5 +13,11 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="paciente"></param>
         /// <returns></returns>
         Task<Paciente> Adicionar(Paciente paciente);
+        /// <summary>
+        /// Responsável por retornar os dados do paciente via Id do usuario
+        /// </summary>
+        /// <param name="idUsuario"></param>
+        /// <returns></returns>
+        Task<Paciente> GetByIdUsuarioAsync(string idUsuario);
     }
 }
