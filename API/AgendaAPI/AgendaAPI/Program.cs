@@ -29,12 +29,12 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "API de Gerenciamento de Agenda e Consultas",
         Version = "v1",
-        Description = "A API de Gerenciamento de Agenda e Consultas é responsável por realizar o cadastro da agenda dos médicos," +
-        "agendamento de consultas pelo paciente e aprovação/cancelamento pelos médicos.",
+        Description = "Responsavel por realizar o cadastro da agenda dos medicos, " +
+        "agendamento de consultas pelo paciente e aprovacao/cancelamento pelos medicos.",
 
         Contact = new OpenApiContact
         {
-            Name = "Programadores: Antonio Kauã e Mauro Roberto.",
+            Name = "Programadores: Antonio Kaua e Mauro Roberto.",
             Email = "maurojr_@outlook.com"
         },
 
