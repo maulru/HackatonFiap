@@ -13,9 +13,7 @@ services:
       - sqlserver_data:/var/opt/mssql
 
   usuarioapi:
-    build:
-      context: .
-      dockerfile: ./API/UsuarioAPI/UsuarioAPI/Dockerfile
+    image: trickfx/usuarioapi:latest 
     container_name: usuarioapi
     depends_on:
       - sqlserver
@@ -23,9 +21,7 @@ services:
       - "8080:8080"
 
   agendaapi:
-    build:
-      context: .
-      dockerfile: ./API/AgendaAPI/AgendaAPI/Dockerfile
+    image: trickfx/agendaapi:latest
     container_name: agendaapi
     depends_on:
       - sqlserver
