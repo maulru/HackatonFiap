@@ -3,6 +3,7 @@ using AgendaAPI.Domain.Entities.Agenda;
 using AgendaAPI.Domain.Enums.Agenda;
 using AgendaAPI.Domain.Repositories;
 using AgendaAPI.Infrastructure.AppDbContext;
+using AgendaAPI.Infrastructure.Services.Email;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgendaAPI.Infrastructure.Repositories
@@ -12,12 +13,14 @@ namespace AgendaAPI.Infrastructure.Repositories
         private readonly ApplicationDbContext _context;
         private readonly DbSet<Horario> _dbSet;
         private readonly DbSet<Agendamento> _agendamentoDbSet;
+        private readonly IEmailQueuePublisher _emailQueuePublisher;
 
-        public ConsultaRepository(ApplicationDbContext context)
+        public ConsultaRepository(ApplicationDbContext context, IEmailQueuePublisher emailQueuePublisher)
         {
             _context = context;
             _dbSet = _context.Set<Horario>();
             _agendamentoDbSet = _context.Set<Agendamento>();
+            _emailQueuePublisher = emailQueuePublisher;
         }
 
         public async Task<List<Horario>> ObterHorariosDisponiveisAsync(int idMedico)
@@ -31,14 +34,25 @@ namespace AgendaAPI.Infrastructure.Repositories
         {
             var horario = await _dbSet.FindAsync(agendamento.IdHorario);
             if (horario == null || horario.Disponibilidade != Disponibilidade.Disponivel)
-                return null; 
+                return null;
 
+       
             horario.Disponibilidade = Disponibilidade.Pendente;
             agendamento.Situacao = Disponibilidade.Pendente;
             agendamento.DataAgendamento = DateTime.UtcNow;
 
             await _agendamentoDbSet.AddAsync(agendamento);
             await _context.SaveChangesAsync();
+
+            var emailItem = new EmailQueueItem
+            {
+                IdMedico = agendamento.Horario.IdMedico, 
+                DataAgendamento = agendamento.DataAgendamento,
+                IdAgendamento = agendamento.Id
+            };
+
+            _emailQueuePublisher.PublishEmail(emailItem);
+
             return agendamento;
         }
 
@@ -52,7 +66,7 @@ namespace AgendaAPI.Infrastructure.Repositories
             if (horario == null)
                 return false;
 
-            if(agendamento.IdPaciente != agendamentoCancelar.IdPaciente)
+            if (agendamento.IdPaciente != agendamentoCancelar.IdPaciente)
                 throw new UnauthorizedAccessException("Agendamento não vinculado ao paciente autenticado.");
 
             // Atualiza o status do agendamento para Cancelado
@@ -65,6 +79,5 @@ namespace AgendaAPI.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-
     }
 }

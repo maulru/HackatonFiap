@@ -38,5 +38,7 @@ namespace UsuarioAPI.Domain.Repositories
         /// <param name="crm"></param>
         /// <returns></returns>
         Task<Medico> GetByCRMAsync(string crm);
+
+        Task<string> GetEmailByMedicoIdAsync(int idMedico);
     }
 }

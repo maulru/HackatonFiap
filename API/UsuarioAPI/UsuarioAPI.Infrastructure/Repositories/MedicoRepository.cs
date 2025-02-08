@@ -53,5 +53,15 @@ namespace UsuarioAPI.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.NumeroCRM == crm);
         }
+        
+        public async Task<string> GetEmailByMedicoIdAsync(int idMedico)
+        {
+            var medico = await _dbSet
+                .Include(m => m.Usuario)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == idMedico);
+
+            return medico?.Usuario?.Email;
+        }
     }
 }
