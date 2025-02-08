@@ -42,13 +42,11 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "A API de Gerenciamento de Médicos e Pacientes é responsável por realizar o cadastro de médicos e pacientes, " +
                       "além de realizar a autenticação via JWT.",
-
         Contact = new OpenApiContact
         {
             Name = "Programadores: Antonio Kauã e Mauro Roberto.",
             Email = "kaubatista545@hotmail.com"
         },
-
         License = new OpenApiLicense
         {
             Name = "MIT License",
@@ -58,7 +56,7 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Digite 'Bearer' e então o token de autenticação no campo abaixo.",
+        Description = "Digite o token JWT.",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
@@ -66,16 +64,29 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT"
     });
 
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+
+    // Incluir os comentários XML
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
     if (File.Exists(xmlPath))
     {
-        // Garante que o XML seja carregado corretamente com UTF-8
         var xmlBytes = File.ReadAllBytes(xmlPath);
         var xmlContent = Encoding.UTF8.GetString(xmlBytes);
         File.WriteAllText(xmlPath, xmlContent, Encoding.UTF8);
-
         c.IncludeXmlComments(xmlPath);
     }
 
@@ -117,22 +128,20 @@ builder.Services.AddScoped<TokenService>();
 // Token
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme =
-    JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey =
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"] ?? throw new Exception("É necessário configurar a variavel SymmetricSecurityKey"))),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"] ?? throw new Exception("É necessário configurar a variavel SymmetricSecurityKey"))),
         ValidateAudience = false,
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero
-
     };
-}
-);
+});
+
 
 var app = builder.Build();
 

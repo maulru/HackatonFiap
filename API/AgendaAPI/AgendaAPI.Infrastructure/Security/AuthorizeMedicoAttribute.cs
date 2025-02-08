@@ -23,6 +23,15 @@ namespace AgendaAPI.Infrastructure.Security
                 context.Result = new ForbidResult();
                 return;
             }
+
+            var idMedicoClaim = user.Claims.FirstOrDefault(c => c.Type == "IdMedico")?.Value;
+            if (string.IsNullOrEmpty(idMedicoClaim))
+            {
+                context.Result = new ForbidResult();
+                return;
+            }
+
+            context.HttpContext.Items["IdMedico"] = idMedicoClaim;
         }
     }
 }
