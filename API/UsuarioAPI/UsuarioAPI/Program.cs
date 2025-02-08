@@ -148,11 +148,17 @@ var app = builder.Build();
 // Aplicando o Middleware
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Aplicar as migrations apos subir a aplicação
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
+
+    // Verifica se o banco já existe antes de rodar migrations
+    if (!dbContext.Database.CanConnect())
+    {
+        dbContext.Database.EnsureCreated(); // Cria o banco se não existir
+    }
+
+    dbContext.Database.Migrate(); // Aplica as migrations
 }
 
 app.MapScalarApiReference();
