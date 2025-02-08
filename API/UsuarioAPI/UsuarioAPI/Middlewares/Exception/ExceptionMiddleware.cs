@@ -44,7 +44,7 @@ namespace UsuarioAPI.Middlewares
                     status = HttpStatusCode.InternalServerError;
                     retornoErroDTO.mensagem = "Erro interno no servidor";
                     retornoErroDTO.status = (int)status;
-                    retornoErroDTO.erros.Add("Ocorreu um erro inesperado, tente novamente mais tarde");
+                    retornoErroDTO.erros.Add($"Ocorreu um erro inesperado, tente novamente mais tarde: {ex}");
                     break;
             }
 
