@@ -5,10 +5,12 @@ using AgendaAPI.Application.UseCases.HorarioUseCases;
 using AgendaAPI.Domain.Repositories;
 using AgendaAPI.Infrastructure.AppDbContext;
 using AgendaAPI.Infrastructure.Repositories;
+using AspNetCore.Scalar;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using System.Reflection;
 using System.Text;
 
@@ -72,6 +74,15 @@ builder.Services.AddSwaggerGen(c =>
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    if (File.Exists(xmlPath))
+    {
+        var xmlBytes = File.ReadAllBytes(xmlPath);
+        var xmlContent = Encoding.UTF8.GetString(xmlBytes);
+        File.WriteAllText(xmlPath, xmlContent, Encoding.UTF8);
+        c.IncludeXmlComments(xmlPath);
+    }
+
     c.IncludeXmlComments(xmlPath);
     c.UseInlineDefinitionsForEnums();
 });
@@ -131,6 +142,13 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     dbContext.Database.Migrate();
 }
+
+app.MapScalarApiReference();
+app.UseScalar(options =>
+{
+    options.UseTheme(Theme.Default);
+    options.RoutePrefix = "api-docs";
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
