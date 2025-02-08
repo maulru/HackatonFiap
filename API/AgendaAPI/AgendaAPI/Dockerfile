@@ -6,6 +6,16 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 5002
 
+# Definir ambiente UTF-8 corretamente
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV LANG=pt_BR.UTF-8
+ENV LC_ALL=pt_BR.UTF-8
+
+# Instalar suporte a internacionalização caso a imagem seja baseada em Alpine (opcional)
+RUN apt-get update && apt-get install -y locales && \
+    locale-gen pt_BR.UTF-8 && \
+    dpkg-reconfigure --frontend=noninteractive locales
+
 # Alterando dockerfile para expor a porta 5002
 ENV ASPNETCORE_URLS=http://+:5002
 
