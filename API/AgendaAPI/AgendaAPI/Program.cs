@@ -83,7 +83,6 @@ builder.Services.AddSwaggerGen(c =>
         c.IncludeXmlComments(xmlPath);
     }
 
-    c.IncludeXmlComments(xmlPath);
     c.UseInlineDefinitionsForEnums();
 });
 
