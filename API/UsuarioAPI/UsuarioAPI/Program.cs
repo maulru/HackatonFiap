@@ -83,7 +83,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Reposit�rios
+// Repositorios
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -99,7 +99,7 @@ builder.Services.AddScoped<CadastrarPacienteUseCase>();
 builder.Services
     .AddIdentity<UsuarioBase, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders(); //Gera��o de Tokens
+    .AddDefaultTokenProviders(); //Geração de Tokens
 
 builder.Services.AddScoped<UsuarioServices>();
 builder.Services.AddScoped<TokenService>();
@@ -115,7 +115,7 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey =
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"])),
+        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SymmetricSecurityKey"] ?? throw new Exception("É necessário configurar a variavel SymmetricSecurityKey"))),
         ValidateAudience = false,
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero
@@ -126,10 +126,10 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Aplicando o Middleware de exce��o
+// Aplicando o Middleware
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Aplicar as migrations ap�s subir a aplica��o.
+// Aplicar as migrations apos subir a aplicação
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
