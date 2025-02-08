@@ -156,9 +156,11 @@ using (var scope = app.Services.CreateScope())
     {
         dbContext.Database.Migrate();
     }
-    finally { }
+    catch
+    {
+        Console.WriteLine("Falha ao rodar migrations, mas continuando a execução.");
+    }
 
-    dbContext.Database.Migrate(); // Aplica as migrations
 }
 
 app.MapScalarApiReference();
