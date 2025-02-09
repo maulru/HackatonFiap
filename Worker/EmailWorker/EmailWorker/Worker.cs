@@ -31,7 +31,7 @@ public class Worker : BackgroundService
     {
         var factory = new ConnectionFactory()
         {
-            HostName = _configuration["RabbitMQ:HostName"] ?? "http://ec2-18-217-128-12.us-east-2.compute.amazonaws.com",
+            HostName = _configuration["RabbitMQ:HostName"] ?? "rabbitmq",
             UserName = _configuration["RabbitMQ:UserName"] ?? "guest",
             Password = _configuration["RabbitMQ:Password"] ?? "guest",
             Port = 5672
