@@ -137,11 +137,11 @@ public class Worker : BackgroundService
         {
             message = new
             {
-                subject = "Confirma��o de Agendamento de Consulta",
+                subject = "Confirmação de Agendamento de Consulta",
                 body = new
                 {
                     contentType = "Text",
-                    content = $"Sua consulta foi agendada para {dataAgendamento:dd/MM/yyyy HH:mm}.\nID do agendamento: {idAgendamento}."
+                    content = $"Uma consulta foi agendada para a data {dataAgendamento:dd/MM/yyyy HH:mm}.\nID do agendamento: {idAgendamento}."
                 },
                 toRecipients = new[]
                 {

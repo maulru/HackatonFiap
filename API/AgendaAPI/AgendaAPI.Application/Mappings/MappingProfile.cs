@@ -15,10 +15,10 @@ namespace AgendaAPI.Application.Mappings
             .ForMember(dest => dest.Disponibilidade, opt => opt.Ignore());
             CreateMap<Horario, RetornoHorarioCadastrado>();
             CreateMap<CadAgendamentoDTO, Agendamento>()
-           .ForMember(dest => dest.Id, opt => opt.Ignore()) 
-           .ForMember(dest => dest.DataAgendamento, opt => opt.MapFrom(src => DateTime.Now)) 
-           .ForMember(dest => dest.Situacao, opt => opt.MapFrom(src => Disponibilidade.Pendente)) 
-           .ForMember(dest => dest.Observacoes, opt => opt.Ignore()) 
+           .ForMember(dest => dest.Id, opt => opt.Ignore())
+           .ForMember(dest => dest.DataAgendamento, opt => opt.MapFrom(src => DateTime.Now))
+           .ForMember(dest => dest.Situacao, opt => opt.MapFrom(src => Disponibilidade.Pendente))
+           .ForMember(dest => dest.Observacoes, opt => opt.Ignore())
            .ForMember(dest => dest.Horario, opt => opt.Ignore());
             CreateMap<Agendamento, RetornoAgendamentoDTO>();
             CreateMap<CancelarAgendamentoDTO, Agendamento>()
@@ -30,6 +30,15 @@ namespace AgendaAPI.Application.Mappings
             .ForMember(dest => dest.Situacao, opt => opt.MapFrom(src => Disponibilidade.Pendente))
             .ForMember(dest => dest.Observacoes, opt => opt.Ignore())
             .ForMember(dest => dest.Horario, opt => opt.Ignore());
+            CreateMap<AlteraAgendamentoDTO, Horario>()
+                        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                        .ForMember(dest => dest.IdMedico, opt => opt.MapFrom(src => src.IdMedico))
+                        .ForMember(dest => dest.DataConsulta, opt => opt.MapFrom(src => src.DataConsulta))
+                        .ForMember(dest => dest.HorarioInicio, opt => opt.MapFrom(src => src.HorarioInicio))
+                        .ForMember(dest => dest.HorarioFim, opt => opt.MapFrom(src => src.HorarioFim))
+                        .ForMember(dest => dest.ValorConsulta, opt => opt.MapFrom(src => src.ValorConsulta))
+                        .ForMember(dest => dest.Disponibilidade, opt => opt.Ignore()); 
+
 
         }
     }

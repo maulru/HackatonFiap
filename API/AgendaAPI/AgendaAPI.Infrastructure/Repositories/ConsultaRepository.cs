@@ -39,7 +39,7 @@ namespace AgendaAPI.Infrastructure.Repositories
        
             horario.Disponibilidade = Disponibilidade.Pendente;
             agendamento.Situacao = Disponibilidade.Pendente;
-            agendamento.DataAgendamento = DateTime.UtcNow;
+            agendamento.DataAgendamento = DateTime.Now;
 
             await _agendamentoDbSet.AddAsync(agendamento);
             await _context.SaveChangesAsync();
@@ -47,7 +47,7 @@ namespace AgendaAPI.Infrastructure.Repositories
             var emailItem = new EmailQueueItem
             {
                 IdMedico = agendamento.Horario.IdMedico, 
-                DataAgendamento = agendamento.DataAgendamento,
+                DataAgendamento = agendamento.Horario.DataConsulta.Date.Add(agendamento.Horario.HorarioInicio),
                 IdAgendamento = agendamento.Id
             };
 

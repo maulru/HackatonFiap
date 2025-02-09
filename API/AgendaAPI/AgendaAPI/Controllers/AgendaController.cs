@@ -117,7 +117,8 @@ namespace AgendaAPI.Controllers
         ///         "Id": "1"
         ///         "dataConsulta": "2025-02-07T19:26:57.247Z",
         ///         "horarioInicio": "string",
-        ///         "horarioFim": "string"
+        ///         "horarioFim": "string",
+        ///         "valorConsulta": 500
         ///     }
         /// </remarks>
         /// <param name="agendaDTO">Objeto com as informações para alteração do horário.</param>
