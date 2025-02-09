@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agendaapi-deployment
+  labels:
+    app: agendaapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agendaapi
+  template:
+    metadata:
+      labels:
+        app: agendaapi
+    spec:
+      containers:
+      - name: agendaapi
+        image: trickfx/agendaapi:latest
+        ports:
+        - containerPort: 5002
+        resources:
+          requests:
+            memory: "256Mi" 
+            cpu: "250m"     
+          limits:
+            memory: "512Mi" 
+            cpu: "500m" 
