@@ -12,40 +12,44 @@ services:
     volumes:
       - sqlserver_data:/var/opt/mssql
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
   usuarioapi:
-    image: trickfx/usuarioapi:latest 
+    build:
+      context: .
+      dockerfile: ./API/UsuarioAPI/UsuarioAPI/Dockerfile
     container_name: usuarioapi
     depends_on:
       - sqlserver
-      - rabbitmq
     ports:
       - "8080:8080"
 
   agendaapi:
-    image: trickfx/agendaapi:latest
+    build:
+      context: .
+      dockerfile: ./API/AgendaAPI/AgendaAPI/Dockerfile
     container_name: agendaapi
     depends_on:
       - sqlserver
-      - rabbitmq
     ports:
       - "5002:5002"
     environment:
       - ASPNETCORE_URLS=http://+:5002
 
   emailworker:
-    image: trickfx/emailworker:latest
+    build:
+      context: .
+      dockerfile: ./Worker/EmailWorker/EmailWorker/Dockerfile
     container_name: emailworker
     depends_on:
       - sqlserver
       - rabbitmq
-    restart: on-failure
+    
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   sqlserver_data:
