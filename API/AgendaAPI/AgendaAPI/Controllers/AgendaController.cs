@@ -82,7 +82,7 @@ namespace AgendaAPI.Controllers
         }
 
         /// <summary>
-        /// Endpoint responsável por listar os agendamentos do médico, confirmados e disponíveis.
+        /// Endpoint responsável por listar todos os horarios do médico.
         /// </summary>
         /// <remarks>
         /// **Exemplo de requisição:**
@@ -114,6 +114,7 @@ namespace AgendaAPI.Controllers
         /// 
         ///     PUT /Agenda/AlterarHorario
         ///     {
+        ///         "Id": "1"
         ///         "dataConsulta": "2025-02-07T19:26:57.247Z",
         ///         "horarioInicio": "string",
         ///         "horarioFim": "string"
@@ -127,7 +128,7 @@ namespace AgendaAPI.Controllers
         [ProducesResponseType(typeof(RetornoErroDTO), 400)]
         [ProducesResponseType(typeof(RetornoErroDTO), 404)]
         [AuthorizeMedico]
-        public async Task<IActionResult> AlterarHorario([FromBody] CadAgendaDTO agendaDTO)
+        public async Task<IActionResult> AlterarHorario([FromBody] AlteraAgendamentoDTO agendaDTO)
         {
             if (HttpContext.Items["IdMedico"] is string idMedicoString &&
                 int.TryParse(idMedicoString, out int idMedico))

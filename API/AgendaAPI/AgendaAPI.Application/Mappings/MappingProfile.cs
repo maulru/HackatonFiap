@@ -24,6 +24,12 @@ namespace AgendaAPI.Application.Mappings
             CreateMap<CancelarAgendamentoDTO, Agendamento>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdAgendamento))
             .ForMember(dest => dest.Observacoes, opt => opt.MapFrom(src => src.Justificativa));
+            CreateMap<AlteraAgendamentoDTO, Agendamento>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.DataAgendamento, opt => opt.MapFrom(src => DateTime.Now))
+            .ForMember(dest => dest.Situacao, opt => opt.MapFrom(src => Disponibilidade.Pendente))
+            .ForMember(dest => dest.Observacoes, opt => opt.Ignore())
+            .ForMember(dest => dest.Horario, opt => opt.Ignore());
 
         }
     }

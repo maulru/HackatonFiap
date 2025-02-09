@@ -18,7 +18,7 @@ namespace AgendaAPI.Application.UseCases.AgendaUseCases
             _mapper = mapper;
         }
 
-        public async Task<RetornoHorarioCadastrado> AlterarHorario(CadAgendaDTO agendaDTO)
+        public async Task<RetornoHorarioCadastrado> AlterarHorario(AlteraAgendamentoDTO agendaDTO)
         {
             var horario = _mapper.Map<Horario>(agendaDTO);
             return await _agendaService.AlterarHorario(horario);

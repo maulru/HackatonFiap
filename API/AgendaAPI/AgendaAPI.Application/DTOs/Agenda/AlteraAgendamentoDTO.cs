@@ -1,10 +1,24 @@
-﻿using AgendaAPI.Domain.Enums.Agenda;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AgendaAPI.Application.DTOs.Horario
+namespace AgendaAPI.Application.DTOs.Agenda
 {
-    public class RetornoHorarioCadastrado
+    public class AlteraAgendamentoDTO
     {
+        /// <summary>
+        /// Id do Agendamento
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// Id do médico
+        /// </summary>
+        [BindNever]
+        [SwaggerExclude]
+        public int IdMedico { get; set; }
 
         public DateTime DataConsulta { get; set; }
         /// <summary>
@@ -16,14 +30,8 @@ namespace AgendaAPI.Application.DTOs.Horario
         /// </summary>
         public TimeSpan HorarioFim { get; set; }
         /// <summary>
-        /// Status de disponibilidade
-        /// </summary>
-        public Disponibilidade Disponibilidade { get; set; }
-        /// <summary>
         /// Valor da consulta
         /// </summary>
         public double ValorConsulta { get; set; }
     }
-
-    
 }
