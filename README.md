@@ -58,6 +58,8 @@ Cada serviço do sistema foi modularizado para garantir escalabilidade e organiz
 ##  🖥️ Importante!
 A aplicação também estará hospedada nos serviços da Amazon (EC2) e poderá ser acessada durante uma semana.
 
+EDIT: A aplicação já não está hospedada na AWS, visando reduzir custos pessoais.
+
 URL da API de Usuários (Médicos e Pacientes): http://ec2-18-217-128-12.us-east-2.compute.amazonaws.com:8080/api-docs
 
 URL da API de Agendamentos: http://ec2-18-217-128-12.us-east-2.compute.amazonaws.com:5002/api-docs

@@ -100,6 +100,7 @@ jobs:
   Deploy_EC2:
     runs-on: ubuntu-latest
     needs: Docker_Build_Push
+    if: false #Removendo execução deste job, pois a aplicação não está mais na AWS.
     steps:
       - name: Conectando à EC2 e Atualizando a Aplicação
         uses: appleboy/ssh-action@v0.1.7
